@@ -1,0 +1,410 @@
+\chapter{Geometria Computacional}
+\section{Fórmulas e Estruturas Iniciais}
+\begin{lstlisting}[language=C++]
+#define EPS 1e-9
+#define PI 3.14159265359
+struct linha { double a, b, c; };
+struct ponto {
+	double x, y;
+    bool operator<(const ponto &p) const {// util p/ sorting
+    	if (fabs(this.x - p.x) > EPS) return this.x < p.x;
+        return this.y < p.y;
+    }
+    bool operator==(const ponto &p) const {
+    	return fabs(x - p.x) < EPS && fabs(y - p.y) < EPS;
+    }
+};
+typedef struct { ponto centro; double raio; } circulo;
+
+double distancia(Ponto p1, Ponto p2){ //distancia euclidiana
+	return sqrt(pow((p1.x - p2.x), 2) + 
+    			pow((p1.y - p2.y), 2));
+}
+
+ponto rotate(ponto p, double rad){
+	return ponto(p.x * cos(rad) - p.y * sin(rad),
+    			p.x * sin(rad) + p.y * sin(rad));
+}
+
+float area_tr_eq(float side){return sqrt(3)/4 * side * side;}
+float peri_tr_eq(float side) { return 3 * side; }
+float area_circunscrita(float a) {
+    return (a * a * (PI / 3));
+}
+
+int rectCount(int n, int m){ //quantos retangulos num grid
+    return (m * n * (n + 1) * (m + 1)) / 4;
+}
+\end{lstlisting}
+
+\section{Geometria Analítica}
+\begin{lstlisting}[language=C++]
+#define EPS 1e-9
+
+struct circle {
+    point c;
+    double r;
+    circle(){c = point( ); r = 0;}
+    
+    circle (point _c , double _r) : c (_c), r (_r){}
+    
+    double area(){ return acos(-1.0) * r * r;}
+    
+    double chord(double rad){ return 2 * r * sin(rad / 2.0);}
+    
+    double sector(double rad){ 
+    	return 0.5 * rad * area() / acos(-1.0);
+    }
+    
+    bool intersects(circle other){
+    	return dist(c, other.c) < r + other.r ;
+    }
+    
+    bool contains(point p){
+    	return dist(c, p) <= r + EPS;
+    }
+    pair <point, point> getTangentPoint(point p){
+        double d1 = dist(p, c), theta = asin(r / d1) ;
+        point p1 = rotate(c-p, -theta);
+        point p2 = rotate(c-p, theta);
+        p1 = p1 *(sqrt(d1 * d1 - r * r) / d1) + p;
+        p2 = p2 *(sqrt(d1 * d1 - r * r) / d1) + p;
+        return make_pair(p1, p2);
+  	}
+} ;
+
+struct StableSum{
+	int cnt = 0;
+    vector <double> v, pref(1, 0);
+    void operator += (double a){ //a >= 0
+    	for(int s = ++cnt; s % 2 == 0; s >>= 1){
+        	a += v.back();
+            v.pop_back(), pref.pop_back();
+        }
+        v.push_back(a);
+        pref.push_back(pref.back() + a);
+    }
+    double val(){
+    	return pref.back();
+    }
+};
+
+int raizesQuadraticas(double a, double b, double c,
+				pair <double, double> &out){
+	if(fabs(a) < EPS) return 0;
+    double delta = b*b - 4*a*c;
+    if(delta < 0) return 0;
+    double sum = (b >= 0) ? -b-srqt(delta) : -b+sqrt(delta);
+    out = {sim/(2*a), fabs(sum) > EPS ? 0 : (2*c)/sum};
+    return 1 + (delta > 0);
+}
+
+//interseccao entre circulos
+bool circleCirle(circle c1, circle c2,
+			pair <point, point> &out){
+	double d = dist(c1.c, c2.c);//distancia euclidiana
+    double co = (d*d + c1.r*c1.r + c2.r*c2.r) /
+    (2 * d * c1.r);
+    if(fabs(co) > 1.0) return false;
+    double alpha = acos(co);
+    point rad = (c2.c - c1.c) * (1.0 / d * c1.r);
+    out = {c1.c + rotate(rad, -alpha),
+    		c1.c + rotate(rad, alpha)};
+    return true;
+}
+\end{lstlisting}
+\section{Operações sobre Linhas}
+\subsection*{Interseção entre Linhas}
+\begin{lstlisting}[language=C++, title={Checa se há intersecção entre linhas}]
+bool onSegment(Point p, Point q, Point r) {
+    if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) &&
+        q.y <= max(p.y, r.y) && q.y >= min(p.y, r.y))
+    	return true; 
+    return false;
+}
+
+int orientacao(Point p, Point q, Point r) {
+    if (q.x <= max(p.x, r.x) && q.x >= min(p.x, r.x) &&
+        q.y <= max(p.y, r.y) && q.y >= min(p.y, r.y))
+    	return true;
+    return false;
+}
+ 
+bool doIntersect(Point p1, Point q1, Point p2, Point q2) {
+    int o1 = orientacao(p1, q1, p2);
+    int o2 = orientacao(p1, q1, q2);
+    int o3 = orientacao(p2, q2, p1);
+    int o4 = orientacao(p2, q2, q1);
+ 
+    if (o1 != o2 && o3 != o4) return true;
+ 
+    if (o1 == 0 && onSegment(p1, p2, q1)) return true;
+ 
+    if (o2 == 0 && onSegment(p1, q2, q1)) return true;
+ 
+    if (o3 == 0 && onSegment(p2, p1, q2)) return true;
+ 
+    if (o4 == 0 && onSegment(p2, q1, q2)) return true;
+ 
+    return false;
+}
+
+\end{lstlisting}
+\begin{lstlisting}[language=C++, title={Retorna o ponto de intersecção}]
+#define pdd pair<double, double>
+pdd ponto_intersecao(pdd A, pdd B, pdd C, pdd D) {
+    double a1 = B.second - A.second;
+    double b1 = A.first - B.first;
+    double c1 = a1 * (A.first) + b1 * (A.second);
+ 
+    double a2 = D.second - C.second;
+    double b2 = C.first - D.first;
+    double c2 = a2 * (C.first) + b2 * (C.second);
+ 
+    double determinante = a1 * b2 - a2 * b1;
+ 
+    if (determinante == 0) { //se paralelas
+        return make_pair(FLT_MAX, FLT_MAX);
+    } else { //se concorrentes
+        double x = (b2 * c1 - b1 * c2) / determinante;
+        double y = (a1 * c2 - a2 * c1) / determinante;
+        return make_pair(x, y);
+    }
+}
+\end{lstlisting}
+\newpage
+\section{Polígonos e Fecho Convexo}
+\subsection{Convex Hull}
+\begin{lstlisting}[language=C++, title={Algoritmo de Jarvis}]
+int orientacao(Point p, Point q, Point r) {...}
+void convexHull(Ponto ps[], int n) {
+    if (n < 3) return;
+ 	V(Ponto) hull;
+    int l = 0;
+    
+    for (int i = 1; i < n; i++) //achar ponto mais a esquerda
+    	if (ps[i].x < ps[l].x) l = i; 
+    
+    int p = l, q;
+	do {
+        hull.push_back(ps[p]);
+        q = (p + 1) % n;
+        for (int i = 0; i < n; i++)
+           if (orientacao(ps[p], ps[i], ps[q]) == 2) q = i;
+        p = q;
+    } while (p != l);
+    
+    for (auto &v : hull)
+        cout << "(" << v.x << ", " << v.y << ")\n";
+}
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=C++, title={Algoritmo de Graham}]
+Ponto p0; 
+Ponto nextToTop(P(Ponto) &S) {
+	Ponto p = S.top();
+    S.pop();
+    Ponto res = S.top();
+    S.push(p);
+    return res;
+}
+
+int swap(Ponto &p1, Ponto &p2) {
+    Ponto temp = p1; p1 = p2; p2 = temp;
+}
+ 
+double distancia(Ponto p1, Ponto p2){...}
+ 
+int orientacao(Point p, Point q, Point r){...}
+ 
+int compare(const void *vp1, const void *vp2) {
+    Ponto *p1 = (Ponto *)vp1;
+    Ponto *p2 = (Ponto *)vp2;
+    int o = orientacao(p0, *p1, *p2);
+    if (o == 0)
+    	return (distancia(p0, *p2) >= 
+        		distancia(p0, *p1)) ? -1 : 1;
+    return (o == 2) ? -1: 1;
+}
+ 
+void convexHull(Ponto pontos[], int n) {
+    int ymin = pontos[0].y, min = 0;
+    for (int i = 1; i < n; i++) {
+    	int y = pontos[i].y;
+    	if ((y < ymin) || (ymin == y && 
+        	pontos[i].x < pontos[min].x))
+    		ymin = pontos[i].y, min = i;
+    }
+    
+    swap(pontos[0], pontos[min]);
+    p0 = pontos[0];
+    qsort(&pontos[1], n-1, sizeof(Ponto), compare);
+    
+    int m = 1;
+    for (int i = 1; i < n; i++) {
+    	while (i < n-1 && 
+       		   !orientacao(p0, pontos[i], pontos[i+1]) == 0)
+        	i++;
+       pontos[m] = pontos[i];
+       m++;
+   	}
+    if (m < 3) return;
+    P(Ponto) S;
+    S.push(pontos[0]);
+    S.push(pontos[1]);
+    S.push(pontos[2]);
+
+    for (int i = 3; i < m; i++) {
+        while (orientacao(nextToTop(S), S.top(), 
+        	   pontos[i]) != 2) S.pop();
+        S.push(pontos[i]);
+    }
+
+    while (!S.empty()) {
+    	Ponto p = S.top();
+    	cout << "(" << p.x << ", " << p.y <<")" << endl;
+    	S.pop();
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Área mínima de um Polígono, dados 3 pontos}
+\begin{lstlisting}[language=C++]
+double gcd(double x, double y) {
+    return fabs(y) < 1e-4 ? x : gcd(y, fmod(x, y));
+}
+ 
+double min_area_poligono(double Ax, double Ay, double Bx, 
+                         double By, double Cx, double Cy) {
+                         
+    double a, b, c, Raio, Angle_A, Angle_B, Angle_C, 
+           semiperimeter, n, area;
+    
+    a = sqrt((Bx - Cx) * (Bx - Cx) + (By - Cy) * (By - Cy));
+    b = sqrt((Ax - Cx) * (Ax - Cx) + (Ay - Cy) * (Ay - Cy));
+    c = sqrt((Ax - Bx) * (Ax - Bx) + (Ay - By) * (Ay - By));
+    
+    semiperimeter = (a + b + c) / 2;
+ 
+    double area_triangulo = sqrt(semiperimeter * 
+    							(semiperimeter - a) * 
+                                (semiperimeter - b) * 
+                                (semiperimeter - c));
+ 
+    Raio = (a * b * c) / (4 * area_triangulo);
+ 
+    Angle_A = acos((b * b + c * c - a * a) / (2 * b * c));
+    Angle_B = acos((a * a + c * c - b * b) / (2 * a * c));
+    Angle_C = acos((b * b + a * a - c * c) / (2 * b * a));
+ 
+    n = PI / gcd(gcd(Angle_A, Angle_B), Angle_C);
+    
+    area = (n * Raio * Raio * sin((2 * PI) / n)) / 2;
+    return area;
+}
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=C++, title={Checa se um ponto está dentro do polígono}]
+bool onSegment(Point p, Point q, Point r){...}
+ 
+int orientation(Point p, Point q, Point r){...}
+ 
+bool doIntersect(Point p1, Point q1, Point p2, Point q2){...}
+ 
+bool isInside(Point polygon[], int n, Point p) {
+    if (n < 3)  return false;
+    Point extreme = {INF, p.y};
+    int count = 0, i = 0;
+    do{
+    	int next = (i + 1) % n;
+        if(doIntersect(polygon[i], polygon[next], 
+           p, extreme)) {
+        	if (!orientation(polygon[i], p, polygon[next]))
+            	return onSegment(polygon[i], p, 
+                				 polygon[next]);
+            count++;
+        }
+        i = next;
+    } while (i != 0);
+ 
+    return count & 1;// Same as (count%2 == 1)
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Triângulo 2D}
+\subsection*{Área do Triângulo}
+\begin{lstlisting}[language=C++]
+float findArea(int a, int b, int c) {
+	if (a < 0 || b < 0 || c < 0 || (a + b <= c) ||
+       (a + c <= b) || (b + c <=a)) {
+    	printf("Nao eh valido"); exit(0);
+    }
+    int s = (a + b + c) / 2;
+    return sqrt(s * (s - a) * (s - b) * (s - c));
+}
+\end{lstlisting}
+
+\subsection*{Classificação do Triângulo}
+\begin{lstlisting}[language=C++]
+void order(int &a, int &b, int &c) {
+	int copy[3]; copy[0] = a; copy[1] = b; copy[2] = c;
+	sort(copy, copy + 3);
+    a = copy[0]; b = copy[1]; c = copy[2];
+}
+
+double euclidDistSquare(Ponto p1, Ponto p2) {
+	return pow((p1.x - p2.x), 2) + pow((p1.y - p2.y), 2);
+}
+
+string getSideClassification(double a, double b, double c) {
+	if (a == b && b == c)
+		return "Equilatero";
+	if (a == b || b == c)
+		return "Isosceles";
+	return "Escaleno";
+}
+
+string getAngleClassification(double a, double b, double c) {
+	if (a + b > c)
+		return "Agudo";
+	if (a + b == c)
+    	return "Reto";
+    return "Obtuso";
+}
+
+void classifyTriangle(Ponto p1, Ponto p2, Ponto p3){ 
+	int a = (int) euclidDistSquare(p1, p2);
+	int b = (int) euclidDistSquare(p1, p3);
+	int c = (int) euclidDistSquare(p2, p3);
+	order(a, b, c);
+	cout << "Triangulo eh " + getAngleClassification(a, b, c) 
+    		+ " e " + getSideClassification(a, b, c) << endl;
+}
+\end{lstlisting}
+
+\section{Triangulação}
+\subsection*{Triangulação com Custo Mínimo}
+\begin{lstlisting}[language=C++]
+double min(double x, double y) {//acha min pra valores double
+    return (x <= y) ? x : y;
+}
+
+double cost(Ponto pontos[], int i, int j, int k) {
+    Ponto p1 = pontos[i], p2 = pontos[j], p3 = pontos[k];
+    return dist(p1, p2) + dist(p2, p3) + dist(p3, p1);
+}
+ 
+double minTriang(Ponto pontos[], int i, int j){
+	if (j < i+2) return 0;
+   	double res = MAX;
+   	for (int k= i + 1; k < j; k++)
+    	res = min(res, (minTriang(pontos, i, k) + 
+        				minTriang(pontos, k, j) + 
+                        cost(pontos, i, k, j)));
+   	return  res;
+}
+\end{lstlisting}

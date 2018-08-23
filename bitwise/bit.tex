@@ -1,0 +1,31 @@
+\chapter{Bit}
+\section{Operadores}
+\begin{lstlisting}[language=C++, keywordstyle=\color{blue}]
+== -> totalmente iguais;
+!= -> pelo menos um bit diferente;
+<< -> right shift; >> -> left shift;
+^, ^= -> XOR; &, &= -> AND; |, |= -> OR;
+~ -> operador de inversao;
+\end{lstlisting}
+
+\section{Bitset}
+PS: Aceita operações com operadores binários.\\
+Aplicações: vetor estático de booleano otimizado.
+\begin{lstlisting}[language=C++]
+#define MAX 16
+bitset<MAX> bs_1;// bs_1: 0000000000000000
+bitset<MAX> bs_2(string("1100"));// bs_2: 0000000000001100
+bitset<MAX> bs_3(18);// bs_3: 0000000000010010
+bitset<4> bs; // 0000
+bs[1] = 1; // 0010
+bs.count(); // retorna a qtd de 1's
+bs.size(); // tamanho do bitset
+bs.all(); // true if all bits are 1
+bs.any(); // true if at least one bit is == 1
+bs.none(); // true if none all bits == 0
+bs.set(); bs.set(position); bs.set(position, bit);
+bs.reset(); bs.reset(position);
+bs.flip(); bs.flip(position);
+bs.to_string(); bs.to_string(ch); bs.to_string('bit', ch);
+bs.to_ulong(); bs.to_ullong();
+\end{lstlisting}

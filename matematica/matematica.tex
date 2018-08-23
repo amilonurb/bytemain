@@ -1,0 +1,229 @@
+\chapter{Matemática}
+\section{Combinatória}
+
+\begin{multicols}{2}
+\end{multicols}
+
+\begin{align*}
+	\left(a\pm b\right)^{n} &= 
+	\sum_{k=1}^{n} \binom{n}{k} a^{k} b^{n-k} & 
+	\text{Catalan: } & 
+	\frac{1}{n+1}\binom{2n}{n} &
+	\text{Combinação com Repetição: } & 
+	\binom{n-k-1}{k}
+\end{align*}
+
+\section{Recorrências e Fórmulas Fechadas}
+\subsubsection{Fibonacci (1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597...)}
+\begin{flalign*}
+	f_{n} = \begin{cases}
+	1, & \mbox{if } n\geq 2 \\
+	f_{n-1}+f_{n-2}, & \mbox{otherwise} 
+	\end{cases} & \Rightarrow
+	round(f_{n-1} * \phi)\;|\;
+	\frac{(1 + \sqrt{5})^{n} - (1 - \sqrt{5})^{n}}{2^{n}\sqrt{5}}\;|\;
+	\left\lfloor\frac{\phi^{n}}{\sqrt{5}} + \frac{1}{2}\right\rfloor
+\end{flalign*}
+
+\subsubsection{Lucas (2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207,...)}
+\begin{flalign*}
+	L_{n} = \begin{cases}
+	2, & \mbox{if } n=0 \\
+	1, & \mbox{if } n=1 \\
+	L_{n-1}+L_{n-2}, & \mbox{otherwise} 
+	\end{cases} & \Rightarrow
+	\left(\frac{1 + \sqrt{5}}{2}\right)^n + \left(\frac{1 - \sqrt{5}}{2}\right)^n
+\end{flalign*}
+
+\subsubsection{Josephus (P/ k Saltos)}
+\begin{flalign*}
+	J_{n, k} = \begin{cases}
+	1, & \mbox{if } n=1 \\
+	\left(k-1+f(n-1,\;k)\right)\mod(n + 1), & \mbox{otherwise} 
+	\end{cases}
+\end{flalign*}
+
+\subsubsection{Catalan (1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012,...)}
+\begin{flalign*}
+	C_{n}= \begin{cases} 1, & \mbox{if } n=0 \\
+	\sum_{i=0}^{n} C_{i} C_{n-i}, & \mbox{otherwise}
+	\end{cases} & \Rightarrow
+	\frac{1}{n+1}\binom{2n}{n} \;|\;
+	\prod_{k=2}^{n} \frac{n+k}{k}
+\end{flalign*}
+
+\newpage
+
+\subsection{Triângulo de Pascal}
+\begin{displaymath}
+	\text{Regra de Formação: }
+	\binom{n}{k}=\binom{n-1}{k-1}\binom{n-1}{k}
+\end{displaymath}
+
+\begin{lstlisting}[language=C++]
+#define MAX_N 101
+#define MAX_K 101
+M(big int) binomio(MAX_N + 1, V(big int)(MAX_K + 1));
+void generateBinomialTable() {
+    for (int i = 0; i <= MAXN; i++)
+		for (int j = 0; j <= i; j++)
+			binomio[i][j] = (j == 0) ? 1 :
+            binomio[i-1][j-1] + binomio[i-1][j];
+}
+\end{lstlisting}
+
+\subsubsection{Resolução de RL's de 2a Ordem}
+\begin{itemize}
+	\item $\text{Base cases } T_{0} \text{ and } T_{1} \text{ ; }T_{n}=K_{1}*T_{n-1}\;\pm\;K_{2}*T_{n-2}$
+	\item $\text{Solve the equation }r^{2}-K_{1}r^{1}-K_{2}r^{0}=0$
+	\item $\text{The solution has the form }\alpha_{1}*r_{1}^{n}+ \alpha_{2}*r_{2}^{n}\text{ for two roots}$
+	\item $\text{The solution has the form }\alpha_{1}*r_{0}^{n}+ \alpha_{2}*n*r_{0}^{n}\text{ for one root}$
+	\item $\text{Use the base cases to find alpha constants by linear system}$
+\end{itemize}
+
+\section{Teoria dos Números}
+\subsection{Aritmética Modular}
+\subsubsection*{Propriedades da Divisão}
+\begin{itemize}
+	\item $\text{Divisão: }\dfrac{A}{B}=Q\;(Quociente) \mod R\;(Resto)$
+	\item $\text{Teorema do Quociente-Resto: }A=Q*B+R,\;0\leq R<B$
+	\item $R=A\mod B$
+	\item $Q=\left\lfloor\dfrac{A}{B}\right\rfloor$
+\end{itemize}
+
+\newpage
+
+\subsubsection*{Propriedades do Módulo}
+\begin{itemize}
+	\item $\left(A + B\right) \;\%\; C = 
+	      \left(\left(A \;\%\; C\right) + 
+	      \left(B \;\%\; C\right)\right) \;\%\; C$
+	\item $\left(A - B\right) \;\%\; C = 
+	      \left(\left[\left(A \;\%\; C\right) -
+	      \left(B \;\%\; C\right)\right] + C\right) \;\%\; C$
+	\item $\left(A \times B\right) \;\%\; C = 
+	      \left(\left(A \;\%\; C\right) \times
+	      \left(B \;\%\; C\right)\right) \;\%\; C$
+	\item $\left(A \div B\right) \;\%\; C = 
+	      \left(\left(A \;\%\; C\right) \times
+	      \left(B^{-1} \;\%\; C\right)\right) \;\%\; C$
+	\item $A^{B} \;\%\; C = \left(A \;\%\; C\right)^{B} \;\%\; C$
+\end{itemize}
+
+\subsection{Exponenciação Rápida}
+\begin{lstlisting}[language=C++]
+big int fastPower(bigint x, bigint n, bigint MOD) {
+    big int y = x;
+    big int result = 1;
+    while (n > 0) {
+        if (n & 1) result = (result % MOD * y % MOD) % MOD;
+        y = (y % MOD * y % MOD) % MOD;
+        n >>= 1;
+    }
+    return result;
+}
+\end{lstlisting}
+
+\subsection{Números Primos}
+\begin{lstlisting}[language = C++, title=Crivo de Eratóstenes]
+V(int) sieve; V(int) primes; V(bool) is_primes;
+void generatePrimes(int n) {
+    V(bool) prime(n + 1, T);
+    prime[0] = prime[1] = F;
+    for (int i = 2; i * i <= n; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= n; j += i) prime[j] = F;
+            primes.PUB(i);
+        }
+    }
+    is_primes = prime;
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language = C++,title=Teste de Primalidade (Determinístico)]
+bool isPrime(int number) {// V.1
+    if (number <= sieve.size()) return is_primes[number];
+    for (int i = 0; i < primos.size(); i++)
+        if (number % primos[i] == 0) return F;
+    return T;
+}
+bool isPrime(big n) {// V.2
+	if (n <= 1) return F; if (n <= 3) return T;
+    if ((n % 2 == 0) || (n % 3 == 0)) return F;
+    for (int i = 5; (i * i) <= n; i += 6)
+        if ((n % i == 0) || (n % (i + 2) == 0)) return F;
+    return T;
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title={Fatores Primos}]
+V(int) primeFactors(bigint number) {
+    V(int) factors;
+    bigint index = 0, pf = primos[index];
+    while ((pf * pf) <= number) {
+        while (n % pf == 0) {
+            n /= pf;
+            factors.PUB(pf);
+        }
+        pf = primos[++index];
+    }
+    if (number != 1) factors.PUB(number);
+    return factors;
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Matrizes}
+\begin{lstlisting}[language=C++]
+//#define MOD 1234567891
+#define MOD 1000000007
+M(int) matrixUnit(int n) {
+    M(int) res(n, V(int)(n));
+    for (int i = 0; i < n; i++) res[i][i] = 1;
+    return res;
+}
+
+M(int) matrixAdd(const M(int) &a, const M(int) &b) {
+    int n = a.size();
+    int m = a[0].size();
+    M(int) res(n, V(int)(m));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            res[i][j] = (a[i][j] + b[i][j]) % MOD;
+    return res;
+}
+
+M(int) matrixMul(const M(int) &a, const M(int) &b) {
+    int n = a.size();
+    int m = a[0].size();
+    int k = b[0].size();
+    M(int) res(n, V(int)(k));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < k; j++)
+            for (int p = 0; p < m; p++)
+                res[i][j] = (res[i][j] + (big)
+                			(a[i][p] * b[p][j]) % MOD) % MOD;
+    return res;
+}
+
+M(int) matrixPow(const M(int) &a, int p) {
+    if (p == 0) return matrixUnit(a.size());
+    if (p & 1) return matrixMul(a, matrixPow(a, p - 1));
+    return matrixPow(matrixMul(a, a), p / 2);
+}
+
+M(int) matrixPowSum(const M(int) &a, int p) {
+    int n = a.size();
+    if (p == 0) return M(int)(n, V(int)(n));
+    if (p % 2 == 0)
+        return matrixMul(matrixPowSum(a, p / 2),
+        				 matrixAdd(matrixUnit(n), 
+                        		   matrixPow(a, p / 2)));
+    return matrixAdd(a, matrixMul(matrixPowSum(a, p - 1), a));
+}
+\end{lstlisting}

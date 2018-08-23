@@ -1,0 +1,103 @@
+\chapter{Programação Dinâmica}
+\section*{Kadane, lista de Soma Máxima Contínua}
+\begin{lstlisting}[language = Python]
+def kadane(lista):
+	maximo = lista[0]
+	maximo_aqui = lista[0] 
+	for i in range(1,len(lista)):
+		maximo_aqui = max(lista[i], maximo_aqui + lista[i])
+		maximo = max(maximo, maximo_aqui)   
+	return maximo
+\end{lstlisting}
+\newpage
+
+\section{LIS, Maior Sublista Crescente}
+\begin{lstlisting}[language=Python]
+def lis(lista):
+	tamanho = len(lista)
+	memo = [1]*tamanho
+	for i in range(1 ,tamanho):
+		for j in range(0 , i):
+			if(lista[i]>lista[j]) and (memo[i]<memo[j]+1):
+				memo[i] = memo[j]+1
+	maximo = 0
+	for i in range(tamanho):
+		maximo = max(maximo , memo[i])
+	return maximo
+
+\end{lstlisting}
+
+\section{LCS (Longest Common Subsequence)}
+\begin{lstlisting}[language = Python]
+def lcs(a , b):
+    m = len(a)
+    n = len(b)
+    memo = matrix(m+1, n+1, None)
+    for i in range(m+1):
+        for j in range(n+1):
+            if i == 0 or j == 0:
+                memo[i][j] = 0
+            elif a[i-1] == b[j-1]:
+                memo[i][j] = memo[i-1][j-1]+1
+            else:
+                memo[i][j] = max(memo[i-1][j], memo[i][j-1])
+    return memo[m][n]
+
+    #opcional para imprimir conteudo
+    tamanho = memo[m][n]
+    saida = [""] * (tamanho+1)
+    saida[tamanho] = ""
+    i = m
+    j = n
+    while i > 0 and j > 0:
+        if a[i-1] == b[j-1]:
+            saida[tamanho-1] = a[i-1]
+            i-=1
+            j-=1
+            tamanho-=1
+        elif memo[i-1][j] > memo[i][j-1]:
+            i-=1
+        else:
+            j-=1
+    return ''.join(saida)
+\end{lstlisting}
+
+\newpage
+
+\section{Coin Change}
+\begin{lstlisting}[language = C++, title={Versão 1}]
+int minCoins(int coins[], int m, int V) {
+    int table[V + 1];
+    table[0] = 0;
+    for (int i = 1; i <= V; i++)
+        table[i] = INT_MAX;
+    for (int i = 1; i <= V; i++) {
+        for (int j = 0; j < m; j++)
+          if (coins[j] <= i) {
+             int sub_res = table[i - coins[j]];
+             if (sub_res != INT_MAX && 
+             	 sub_res + 1 < table[i])
+                 table[i] = sub_res + 1;
+          }
+    }
+    return table[V];
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language = C++, title={Versão Reduzida}]
+// n: total de moedas distintas, v: valor
+int minCoins(V(int) coins, int n, int v) {
+	V(int) dp(v + 1, INT_MAX); dp[0] = 0;
+    for (int i = 0; i < n; i++) dp[coins[i]] = 1;
+    for (int i = 1; i <= v; i++) {
+    	for (int j = 0; j < n; j++) {
+        	if (i >= coins[j] && dp[i - coins[j]] != INT_MAX)
+            	dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+        }
+    }
+    if (table[v] == INT_MAX) table[v] = -1;
+    return table[v];
+}
+\end{lstlisting}

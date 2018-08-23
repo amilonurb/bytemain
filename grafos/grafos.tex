@@ -1,0 +1,333 @@
+\chapter{Grafos}
+
+\section{Representações}
+\subsection*{Matriz de Adjacências}
+
+\begin{lstlisting}[language=C++, title={Matriz de Adjacências}]
+#define M(x) vector<vector<int>>
+M(x) grafo;
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title={Lista de Adjacências}]
+
+\end{lstlisting}
+
+\section{DFS}
+\subsection*{Matriz de Incidência - Beta}
+\begin{lstlisting}[language=C++]
+m(int) grafo; //matriz de incidencia
+v(int) val; //pesos
+v(bool) visitado; //aresta nao visitada
+s(int) caminho;
+int n, m;
+
+void init(int n, m){
+	for(int i=0; i < n; i++) 
+		grafo.pub(vector<int>(m,0));
+}
+
+void add(int x, int y, int e, int val){
+	grafo[x][e] = origem;
+	grafo[y][e] = destino;
+}
+
+int getFilho(int pai){
+	for(int i = 0; i < m; i++){
+		if(grafo[pai][i] == origem and not visitado[i]){
+			for(int j=0; j <n; j++ ){
+				if(grafo[i][j] == destino){
+					visitado[i]=true;
+					return j;
+				}
+			}
+		}
+	}
+	return nill;
+}
+
+void dfs(int atual){
+	int filho = getFilho(atual);// O(n*m) => O(n^2)
+	
+	if(filho != nill){
+		caminho.push(filho);
+		printf("%d %d\n", pai, filho);
+		dfs(filho);
+	}else if(not caminho.empty()){
+		int pai = caminho.top();
+		caminho.pop();
+		printf("%d %d\n", filho, pai);
+		dfs(pai);
+	}
+}
+\end{lstlisting}
+\subsection*{Matriz de Adjacência}
+\begin{lstlisting}[language=C++]
+M(int) grafo; V(bool) visitado; P(int) caminho;
+
+int filho(int vPai) {
+	for (int cont = 0; cont < grafo.size(); cont++)
+        if (grafo[vPai][cont] && !visitado[cont]) return cont;
+    return NILL;
+}
+
+void dfs(int vAtual) {
+    int vFilho = filho(vAtual); visitado[vAtual] = T;
+    if (vFilho != NILL) {
+        caminho.push(vAtual); dfs(vFilho);
+    } else if (!caminho.empty()) {
+        int vPai = caminho.top(); caminho.pop(); dfs(vPai);
+    }
+}
+\end{lstlisting}
+
+\subsection*{Lista de Adjacência}
+\begin{lstlisting}[language=C++]
+//Implementar
+\end{lstlisting}
+
+\subsection*{Grid}
+\begin{lstlisting}[language=C++]
+//Implementar
+\end{lstlisting}
+
+\newpage
+
+\section{BFS}
+\subsection*{Matriz de Adjacência}
+\begin{lstlisting}[language = C++]
+//Implementar
+\end{lstlisting}
+
+\section{BFS - Lista de Adjacência}
+\begin{lstlisting}[language=C++]
+//Implementar
+\end{lstlisting}
+
+\section{BFS - Grid}
+\begin{lstlisting}[language=C++]
+//Implementar
+\end{lstlisting}
+
+\newpage
+
+\section{Flood-Fill}
+\begin{lstlisting}[language = C++]
+M(bool) grid; V(int) tamanhos; int tamanho=0;
+
+void dfs(int x, int y) {
+	if((x >= 0 && x <= grid.size()) && 
+       (y >= 0 && y <= grid[0].size())) {
+    	if(!grid[x][y]) {
+            tamanho++; //tamanho da componente
+            grid[x][y] = true;
+            // cruz
+            dfs(x-1, y); dfs(x+1, y);
+            dfs(x, y+1); dfs(x, y-1);
+            //diagonais
+            dfs(x-1, y+1); dfs(x+1, y+1);
+            dfs(x+1, y-1); fs(x-1, y-1);
+        }
+    }
+}
+
+void floodFill() {
+    for (int x = 0; x < grid.size(); x++) {
+    	for (int y = 0; y < grid[0].size(); y++) {
+    		if(!grid[x][y]) {
+            	tamanho = 0;
+    			dfs(x, y);
+                tamanhos.PUB(tamanho);
+                // tamanhos.size() == quantidade componentes
+    		}
+    	}
+    }
+}
+\end{lstlisting}
+
+\newpage
+\section{Árvore Espalhada Mínima}
+\begin{lstlisting}[language=C++, title={Algoritmo de Kruskal}]
+struct aresta { int x, y, z; };
+V(aresta) grafo;
+V(int) pai;
+
+tuple(V(aresta),int) arvoreGeradora(int qtdVertices) {
+	int peso = NILL;
+    V(aresta) mst;
+	pai = V(int)(quantVertice, NILL);
+    
+    //verifique a possibilidade de stable_sort()
+    sort(grafo.begin(), grafo.end(), 
+    	[](aresta a, aresta b) -> bool {
+    	// return a.z > b.z // maxima
+        return a.z < b.z; // minima
+    });
+    
+	for(aresta it : grafo) {
+		if(!formaCiclo(it.x, it.y)) {
+			_union(it.x, it.y);
+			peso += it.z;
+            mst.PUB(it);
+		}
+	}
+	return (mst,peso);
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Caminhos Mínimos}
+\subsection{Dijkstra}
+\begin{lstlisting}[language=C++]
+#define MAXN 100009
+#define INF (1 << 30)
+
+typedef pair<int, int> ii;
+vector<ii> adjList[MAXN];
+int dist[MAXN], n, m;
+
+int dijkstra(int s, int t) {
+    for (int i = 1; i <= n; i++) dist[i] = INF; 
+    dist[s] = 0;
+    set<ii> nodes;
+    nodes.insert({0, s});
+    while(!nodes.empty()) {
+        int u = nodes.begin()->second;
+        nodes.erase(nodes.begin());
+        for (int i = 0; i < adjList[u].size(); i++) {
+            int v = adjList[u][i].second;
+            int w = adjList[u][i].first;
+            if (dist[v] > dist[v] + w)
+                nodes.erase({dist[v], v});
+            dist[v] = dist[u] + w;
+            nodes.insert({dist[v], v});
+        }
+    }
+    return dist[t];
+}
+\end{lstlisting}
+
+\subsection{Floyd-Warshall}
+\begin{lstlisting}[language=C++]
+#define MAXN 409
+int adjMat[MAXN][MAXN], N;
+
+void floydWarshall() {
+    for (int k = 0; k < N; k++)
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+                adjMat[i][j] = min(adjMat[i][j], 
+                				   adjMat[i][k] + 
+                                   adjMat[k][j]);
+}
+\end{lstlisting}
+
+\newpage
+
+\subsection{Bellman-Ford}
+\begin{lstlisting}[language=C++]
+#define MAXN 1009
+int dist[MAXN], N;
+typedef pair<int, int> ii;
+vector<ii> adjList[MAXN];
+int bellmanFord(int s, int t) {
+    memset(&dist, 1 << 20, sizeof dist);
+    dist[s] = 0;
+    bool hasNegativeWeightCycle = false;
+    for (int i = 0, v, w; i < N; i++) {
+        for (int u = 0; u < N; u++) {
+            for (int j = 0; j < adjList[u].size(); j++) {
+                v = adjList[u][j].first;
+                w = adjList[u][j].second;
+                if (i == N - 1 && dist[v] > dist[u] + w)
+                    hasNegativeWeightCycle = true;
+                else dist[v] = min(dist[v], dist[u] + w);
+            }
+        }
+    }
+    return dist[t];
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Componentes Conexos}
+\begin{lstlisting}[language=C++, title={Versão 1}]
+// v: qtd de vertices
+int componentesConexos(M(int) grafo, int v) {
+	V(int) elementos; int status[v], pilha[v];
+    int init = 0, topo = -1, result = 0, i, j;
+    
+    memset(status, 0, sizeof(status));
+	// for (i = 0; i < v; i++) status[i] = 0;
+	
+    for (j = 0; j < v; j++)	{
+		if (status[j] == 0) {
+			status[j] = 1;
+			pilha[++topo] = j;
+
+			while (topo != -1) {
+				init = pilha[topo--];
+				elementos.PUB(init);
+				
+				for (i = 0; i < v; i++)	{
+					if (grafo[init][i] && status[i] == 0) {
+						pilha[++topo] = i;
+						status[i] = 1;
+					}
+				}
+			}
+
+			// se for exibir os elementos de cada componente
+			sort(elementos.begin(), elementos.end());
+            for (auto &e : elementos) cout << e << ' ';
+			putchar('\n');
+
+			elementos.clear(); result++;
+		}
+	}
+
+	return result;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title={v2}]
+// mesma ideia de floodfill
+for(int cont=0; cont < visitado.size(); cont++ ){
+	if(!visitado[cont]){
+		dfs(cont);
+		componente++;
+	}
+}
+\end{lstlisting}
+
+\newpage
+
+\section{Emparelhamento Máximo (Grafo Bipartido)}
+\begin{lstlisting}[language=C++]
+// TROCAR "V" POR "V(int)" E "M" por "const M(int)"
+bool findMatch(int i, M &w, V &mr, V &mc, V &seen) {
+    for (int j = 0; j < w[i].size(); j++) {
+    	if (w[i][j] && !seen[j]) {
+    		seen[j] = true;
+            if (mc[j] < 0 || 
+            	findMatch(mc[j], w, mr, mc, seen)) {
+                mr[i] = j; mc[j] = i;
+                return true;
+            }
+    	}
+    }
+    return false;
+}
+// TROCAR "V" POR "V(int)" E "M" por "const M(int)"
+int bipartiteMatching(M &w, V &mr, V &mc) {
+    mr = V(int)(w.size(), -1);
+    mc = V(int)(w[0].size(), -1);
+    int ct = 0;
+    for (int i = 0; i < w.size(); i++) {
+    	V(int) seen(w[0].size());
+    	if (findMatch(i, w, mr, mc, seen)) ct++;
+    }
+    return ct;
+}
+\end{lstlisting}

@@ -1,0 +1,13 @@
+\chapter{Pesquisa}
+\section{Frequência}
+\begin{lstlisting}[language=C++]
+int freq(int x, vector<int> v) {
+  auto inicio = lower_bound(v.begin(), v.end(), x);
+  if (init != v.end()) {
+    auto fim = upper_bound(v.begin(), v.end(), x);
+    return (fim - v.begin()) - (inicio - v.begin());
+  } else {
+    return 0;
+  }
+}
+\end{lstlisting}

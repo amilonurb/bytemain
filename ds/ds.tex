@@ -1,0 +1,291 @@
+\chapter{Estruturas de Dados}
+\section{Union-Find}
+\begin{lstlisting}[language=C++]
+V(int) pai(N, NILL);
+
+int _find(int filho) {
+    if (pai[filho] == NILL) return filho;
+    return _find(pai[filho]);
+}
+ 
+void _union(int x, int y) {
+    pai[_find(x)] = _find(y);
+}
+
+bool formaCiclo(int x, int y) {
+	return _find(x) == _find(y);
+}
+\end{lstlisting}
+
+\section{Simple Binary Tree}
+\begin{lstlisting}[language=C++, title={Estrutura da Árvore}]
+struct arvore {
+    int val, cont;
+	arvore *e, *d;
+} *raiz;
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title=Retorna um nó com este valor ou nulo]
+arvore *&buscar(arvore *&node, int val) {
+    if (node == nullptr || node->val == val) return node;
+    else if (val > node->val) return buscar(node->d, val);
+    return buscar(node->e,val);
+}
+\end{lstlisting} 
+
+\newpage
+\begin{lstlisting}[language=C++, title=Adiciona um novo elemento]
+void push(arvore *&node, int val) {
+    if (node == nullptr || node->val == val) {
+        node = new arvore;
+        node->val = val;
+    } else if (val > node->val) 
+    	push(buscar(node->d, val), val);
+    else if (val < node->val) 
+    	push(buscar(node->e, val), val);   
+    else node->cont++;
+}
+\end{lstlisting}
+\begin{lstlisting}[language=C++, title=Percursos]
+void pre_ordem(arvore *&node) {
+    if (node != nullptr) {
+        printf(" %d",node->val);
+        pre_ordem(node->e); 
+        pre_ordem(node->d);  
+    }
+}
+
+void em_ordem(arvore *&node) {
+    if (node != nullptr) {
+        em_ordem(node->e);
+        printf(" %d",node->val);
+        em_ordem(node->d);  
+    }
+}
+
+void pos_ordem(arvore *&node) {
+    if (node != nullptr) {
+        pos_ordem(node->e);
+        pos_ordem(node->d);
+        printf(" %d",node->val);    
+    } 
+}
+\end{lstlisting}
+\newpage
+
+\section{Red Black Tree}
+\section{Radix Trie}
+\section{Trie}
+\section{Segment Tree}
+\begin{lstlisting}[language=C++, title={Implementação Eficiente}]
+const int N = 100000; 
+ 
+int tree[2 * N];
+ 
+void build(int arr[]) {
+    for (int i=0; i<n; i++)    
+        tree[n+i] = arr[i];
+     
+    for (int i = n - 1; i > 0; --i)     
+        tree[i] = tree[i<<1] + tree[i<<1 | 1];    
+}
+ 
+void updateTreeNode(int p, int value){ 
+    tree[p+n] = value;
+    p = p+n;
+     
+    for (int i=p; i > 1; i >>= 1)
+        tree[i>>1] = tree[i] + tree[i^1];
+}
+ 
+int query(int l, int r){ 
+    int res = 0;
+     
+    for (l += n, r += n; l < r; l >>= 1, r >>= 1){
+        if (l&1) 
+            res += tree[l++];
+     
+        if (r&1) 
+            res += tree[--r];
+    }
+     
+    return res;
+}
+\end{lstlisting}
+\newpage
+\subsection*{Suffix Tree}
+\begin{lstlisting}[language=C++, title={Árvore de Sufixos de Ukkonen}]
+#define MAX_CHAR 256
+ 
+struct SuffixTreeNode {
+    struct SuffixTreeNode *children[MAX_CHAR];
+	struct SuffixTreeNode *suffixLink;
+ 	int start;
+    int *end;
+    int suffixIndex;
+};
+ 
+typedef struct SuffixTreeNode Node;
+ 
+char text[100];
+Node *root = NULL;
+Node *lastNewNode = NULL;
+Node *activeNode = NULL;
+int activeEdge = -1;
+int activeLength = 0;
+int remainingSuffixCount = 0;
+int leafEnd = -1;
+int *rootEnd = NULL;
+int *splitEnd = NULL;
+int size = -1;
+ 
+Node *newNode(int start, int *end){
+    Node *node =(Node*) malloc(sizeof(Node));
+    int i;
+    for(i = 0; i < MAX_CHAR; i++)
+          node->children[i] = NULL; 
+    node->suffixLink = root;
+    node->start = start;
+    node->end = end;
+ 	node->suffixIndex = -1;
+    return node;
+}
+ 
+int edgeLength(Node *n){
+    return *(n->end) - (n->start) + 1;
+}
+ 
+int walkDown(Node *currNode){
+    if (activeLength >= edgeLength(currNode)){
+        activeEdge += edgeLength(currNode);
+        activeLength -= edgeLength(currNode);
+        activeNode = currNode;
+        return 1;
+    }
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=C++]
+    return 0;
+}
+ 
+void extendSuffixTree(int pos){
+    leafEnd = pos;
+ 	remainingSuffixCount++; 
+    lastNewNode = NULL;
+ 
+    while(remainingSuffixCount > 0){ 
+        if (activeLength == 0)
+            activeEdge = pos;
+ 
+        if (activeNode->children[text[activeEdge]] == NULL){
+            activeNode->children[text[activeEdge]] =
+                                    newNode(pos, &leafEnd);
+ 
+            if(lastNewNode != NULL){
+                lastNewNode->suffixLink = activeNode;
+                lastNewNode = NULL;
+            }
+        }else{
+            Node *next = 
+            	activeNode->children[text[activeEdge]];
+            if(walkDown(next)) continue;
+            if(text[next->start + activeLength] == text[pos]){
+                if(lastNewNode != NULL && activeNode != root){
+                    lastNewNode->suffixLink = activeNode;
+                    lastNewNode = NULL;
+                } 
+                activeLength++;
+                break;
+            }
+ 
+            splitEnd = (int*) malloc(sizeof(int));
+            *splitEnd = next->start + activeLength - 1;
+ 
+            Node *split = newNode(next->start, splitEnd);
+            activeNode->children[text[activeEdge]] = split;
+ 
+            split->children[text[pos]] = newNode(pos, &leafEnd);
+            next->start += activeLength;
+            split->children[text[next->start]] = next;
+ 
+            if(lastNewNode != NULL){         
+                lastNewNode->suffixLink = split;
+            }
+ 
+            lastNewNode = split;
+        }
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=C++]
+ 
+        remainingSuffixCount--;
+        if(activeNode == root && activeLength > 0){
+            activeLength--;
+            activeEdge = pos - remainingSuffixCount + 1;
+        }else if (activeNode != root){
+            activeNode = activeNode->suffixLink;
+        }
+    }
+}
+ 
+void print(int i, int j){
+    int k;
+    for (k=i; k<=j; k++)
+        printf("%c", text[k]);
+}
+ 
+void setSuffixIndexByDFS(Node *n, int labelHeight){
+    if(n == NULL) return; 
+    if(n->start != -1) print(n->start, *(n->end));
+    int leaf = 1;
+    int i;
+    for(i = 0; i < MAX_CHAR; i++){
+        if (n->children[i] != NULL){
+            if (leaf == 1 && n->start != -1)
+                printf(" [%d]\n", n->suffixIndex); 
+            leaf = 0;
+            setSuffixIndexByDFS(n->children[i], labelHeight +
+                                  edgeLength(n->children[i]));
+        }
+    }
+    if(leaf == 1){
+        n->suffixIndex = size - labelHeight;
+        printf(" [%d]\n", n->suffixIndex);
+    }
+}
+ 
+void freeSuffixTreeByPostOrder(Node *n){
+    if(n == NULL)
+        return;
+    int i;
+    for(i = 0; i < MAX_CHAR; i++){
+        if(n->children[i] != NULL){
+            freeSuffixTreeByPostOrder(n->children[i]);
+        }
+    }
+    if(n->suffixIndex == -1) free(n->end);
+    free(n);
+}
+\end{lstlisting}
+\newpage
+\begin{lstlisting}[language=C++]
+ 
+void buildSuffixTree(){
+    size = strlen(text);
+    int i;
+    rootEnd = (int*) malloc(sizeof(int));
+    *rootEnd = - 1;
+ 	root = newNode(-1, rootEnd); 
+    activeNode = root;
+    for(i=0; i<size; i++) extendSuffixTree(i);
+    int labelHeight = 0;
+    setSuffixIndexByDFS(root, labelHeight); 
+    freeSuffixTreeByPostOrder(root);
+}
+\end{lstlisting}
+
+\section{Sparse Table}
+\section{Xor-Linked list}
+\section{Skip-List}
+\section{Splay-tree}
+\section{Scapegoat tree}

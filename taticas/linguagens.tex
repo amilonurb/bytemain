@@ -1,0 +1,73 @@
+\chapter{Linguagens}
+\section{C++}
+\begin{lstlisting}[language=C++, title={Importar a STL inteira}]
+#include <bits/stdc++.h>
+using namespace std;
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title={Acelerar digitação}]
+#define big long long
+#define b(x) bitset<x>
+#define p(x) stack<x>
+#define v(x) vector<x>
+#define m(x) V(V(x))
+#define d(x) deque<x>
+#define l(x) list<x>
+#define h(x,y) map<x,y>
+#define s(x) set<x>
+#define pub(x) push_back(x)
+#define pob(x) pop_back(x)
+#define puf(x) push_front(x)
+#define pof(x) pop_front(x)
+#define add(x) insert(x)
+#define rm(x)  erase(x)
+#define all(x) x.begin(), x.end()
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title={Acelerar I/O sem scanf}]
+ios_base::sync_with_stdio(0);
+cin.tie(0);
+\end{lstlisting}
+\newpage
+
+\section{Python 3}
+\begin{lstlisting}[language=Python, title={Codificação}]
+# -*- coding: utf-8 -*-
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, title={Tamanho da Pilha de Recursão}]
+import sys
+sys.setrecursionlimit(LIM)
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, title={Matriz}]
+def matrix(linha,coluna,val):
+	m = [None] * linha
+	for i in range(0,linha):
+		m[i] = [val] * coluna
+	return m
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, title={Cortar Lista ou String }] 
+sub_lista = lista[INICIO:FIM:SALTO]
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, title={Ler Até EOF}]
+while True:
+	try:
+    	#codigo
+    except EOFError:
+    	break
+\end{lstlisting}
+\begin{lstlisting}[language=Python, title={Múltiplas Entradas na Mesma Linha}]
+a, b, c = map(tipo, input().split("separador"))
+\end{lstlisting}
+\section{Java}
+\begin{lstlisting}[language=Java, title={Bibliotecas importantes}]
+import java.math.BigInteger;
+import java.util.*;
+\end{lstlisting}
+
+\begin{lstlisting}[language=Java, title={Conversão de Base}]
+<TIPO>.toString(N, base);
+\end{lstlisting}
