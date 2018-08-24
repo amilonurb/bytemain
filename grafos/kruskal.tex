@@ -1,0 +1,28 @@
+\subsection{Kruskal}
+\begin{lstlisting}[language=C++, title={Algoritmo de Kruskal}]
+struct aresta { int x, y, z; };
+V(aresta) grafo;
+V(int) pai;
+
+tuple(V(aresta),int) arvoreGeradora(int qtdVertices) {
+	int peso = NILL;
+    V(aresta) mst;
+	pai = V(int)(quantVertice, NILL);
+    
+    //verifique a possibilidade de stable_sort()
+    sort(grafo.begin(), grafo.end(), 
+    	[](aresta a, aresta b) -> bool {
+    	// return a.z > b.z // maxima
+        return a.z < b.z; // minima
+    });
+    
+	for(aresta it : grafo) {
+		if(!formaCiclo(it.x, it.y)) {
+			_union(it.x, it.y);
+			peso += it.z;
+            mst.PUB(it);
+		}
+	}
+	return (mst,peso);
+}
+\end{lstlisting}

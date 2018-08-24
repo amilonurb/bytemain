@@ -1,21 +1,34 @@
 \chapter{Estruturas de Dados}
 \section{Union-Find}
-\begin{lstlisting}[language=C++]
-V(int) pai(N, NILL);
+\begin{minted}[
+    frame=single,
+    %style=igor
+    %style=lovelace
+    %style=autumn
+    %style=vs
+    %%style=perldoc
+    %style=tango
+    %style=emacs
+    %style=friendly
+    %style=monokai %dark
+    %style=paraiso-dark %dark
+    %style=colorful
+    %style=pastie
+    style=paraiso-light
+    %style=default
+    %style=fruity
+]{cpp}
+vector<int> pai(NUM_NODES, NILL);
 
 int _find(int filho) {
     if (pai[filho] == NILL) return filho;
     return _find(pai[filho]);
 }
  
-void _union(int x, int y) {
-    pai[_find(x)] = _find(y);
-}
+void _union(int x, int y) { pai[_find(x)] = _find(y); }
 
-bool formaCiclo(int x, int y) {
-	return _find(x) == _find(y);
-}
-\end{lstlisting}
+bool formaCiclo(int x, int y) { return _find(x) == _find(y); }
+\end{minted}
 
 \section{Simple Binary Tree}
 \begin{lstlisting}[language=C++, title={Estrutura da Árvore}]

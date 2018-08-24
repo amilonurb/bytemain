@@ -177,79 +177,7 @@ tuple(V(aresta),int) arvoreGeradora(int qtdVertices) {
 \newpage
 
 \section{Caminhos Mínimos}
-\subsection{Dijkstra}
-\begin{lstlisting}[language=C++]
-#define MAXN 100009
-#define INF (1 << 30)
 
-typedef pair<int, int> ii;
-vector<ii> adjList[MAXN];
-int dist[MAXN], n, m;
-
-int dijkstra(int s, int t) {
-    for (int i = 1; i <= n; i++) dist[i] = INF; 
-    dist[s] = 0;
-    set<ii> nodes;
-    nodes.insert({0, s});
-    while(!nodes.empty()) {
-        int u = nodes.begin()->second;
-        nodes.erase(nodes.begin());
-        for (int i = 0; i < adjList[u].size(); i++) {
-            int v = adjList[u][i].second;
-            int w = adjList[u][i].first;
-            if (dist[v] > dist[v] + w)
-                nodes.erase({dist[v], v});
-            dist[v] = dist[u] + w;
-            nodes.insert({dist[v], v});
-        }
-    }
-    return dist[t];
-}
-\end{lstlisting}
-
-\subsection{Floyd-Warshall}
-\begin{lstlisting}[language=C++]
-#define MAXN 409
-int adjMat[MAXN][MAXN], N;
-
-void floydWarshall() {
-    for (int k = 0; k < N; k++)
-        for (int i = 0; i < N; i++)
-            for (int j = 0; j < N; j++)
-                adjMat[i][j] = min(adjMat[i][j], 
-                				   adjMat[i][k] + 
-                                   adjMat[k][j]);
-}
-\end{lstlisting}
-
-\newpage
-
-\subsection{Bellman-Ford}
-\begin{lstlisting}[language=C++]
-#define MAXN 1009
-int dist[MAXN], N;
-typedef pair<int, int> ii;
-vector<ii> adjList[MAXN];
-int bellmanFord(int s, int t) {
-    memset(&dist, 1 << 20, sizeof dist);
-    dist[s] = 0;
-    bool hasNegativeWeightCycle = false;
-    for (int i = 0, v, w; i < N; i++) {
-        for (int u = 0; u < N; u++) {
-            for (int j = 0; j < adjList[u].size(); j++) {
-                v = adjList[u][j].first;
-                w = adjList[u][j].second;
-                if (i == N - 1 && dist[v] > dist[u] + w)
-                    hasNegativeWeightCycle = true;
-                else dist[v] = min(dist[v], dist[u] + w);
-            }
-        }
-    }
-    return dist[t];
-}
-\end{lstlisting}
-
-\newpage
 
 \section{Componentes Conexos}
 \begin{lstlisting}[language=C++, title={Versão 1}]

@@ -1,25 +1,6 @@
 \chapter{String}
 
-\section{Todas ocorrências nume string}
-\begin{lstlisting}
-vector<int> todasOcorrencias(string &a, string &b){
-	int pos = 0;
-	vector<int> ocorrencias;
-	
-	while(true){
-		pos = a.find(b, pos);
-		if(pos == string::npos) return ocorrencias;
-		ocorrencias.push_back(pos);
-		pos+=b.size();		
-	}
-}
 
-int main(){
-	string a="babsabsabsbabsabsasddddddd";
-	cout << todasOcorrencias(a, "dd") << endl;
-	return 0;
-}
-\end{lstlisting}
 
 
 \section{KMP}

@@ -1,0 +1,35 @@
+\subsection{Dijkstra}
+\begin{lstlisting}[language=C++]
+#define MAXN 100009
+#define INF (1 << 30)
+
+typedef pair<int, int> ii;
+vector<ii> adjList[MAXN];
+int dist[MAXN], n, m;
+
+int dijkstra(int s, int t) {
+    for (int i = 1; i <= n; i++) dist[i] = INF; 
+    dist[s] = 0;
+    set<ii> nodes;
+    nodes.insert({0, s});
+    while(!nodes.empty()) {
+        int u = nodes.begin()->second;
+        nodes.erase(nodes.begin());
+        for (int i = 0; i < adjList[u].size(); i++) {
+            int v = adjList[u][i].second;
+            int w = adjList[u][i].first;
+            if (dist[v] > dist[v] + w)
+                nodes.erase({dist[v], v});
+            dist[v] = dist[u] + w;
+            nodes.insert({dist[v], v});
+        }
+    }
+    return dist[t];
+}
+\end{lstlisting}
+
+
+
+
+
+\newpage
