@@ -1,11 +1,8 @@
-%\documentclass[a4paper, 12pt]{book}
-\documentclass[oneside]{book}
-%\usepackage[top=2cm, bottom=2cm, left=2.5cm, right=2.5cm]{geometry}
+\documentclass[a4paper, 12pt]{book}
 \usepackage[a4paper]{geometry}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-%\usepackage[portuguese]{babel}
-\usepackage[brazil,english]{babel}
+\usepackage[brazil]{babel}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -14,21 +11,24 @@
 \usepackage{xcolor}
 \usepackage{verbatim}
 \usepackage{graphicx}
-\usepackage{enumerate} %listas numeradas
+\usepackage{enumerate}
 \usepackage{comment}
 \usepackage{multicol}
-\usepackage{minted}
+% \usepackage{minted}
+\usepackage{hyperref}
 
-% configurações
+% configurações do codigo
+\definecolor{eclipsepurple}{rgb}{0.5,0,0.35}
+\definecolor{ceruleanblue}{rgb}{0.16, 0.32, 0.75}
 \lstset{
-    language=C++,
-	basicstyle=\normalsize\ttfamily,
+	basicstyle=\large\ttfamily\bfseries,
 	frame=single,
 	tabsize=4,
-	showstringspaces=false,
+	showstringspaces=true,
 	commentstyle=\color{gray},
-	keywordstyle=\color{blue},
+	keywordstyle=\color{eclipsepurple},
 	stringstyle=\color{orange},
+	otherkeywords={nullptr}
 }
 
 \geometry{

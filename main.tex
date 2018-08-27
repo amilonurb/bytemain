@@ -1,65 +1,108 @@
-\include{config/header}
+\input{config/header}
 
 \begin{document}
 
 \include{config/capa}
-\newpage
 
 % Dedicatórias
-\begin{dedication}
-	Ao nosso técnico Ricardo Mesquita, por confiar em nós. 
+\begin{dedication} 
+\Large{Ao nosso técnico Ricardo Mesquita, por confiar em nós. }
 \end{dedication}
 
 % Sumário
 \tableofcontents
 
 % Vamos nos basear no contéudo do geeksforgeeks?
-\include{taticas/linguagens}
-\newpage
 
-\include{ds/ds}
-\newpage
+% \include{taticas/linguagens}
+\chapter{Táticas}
 
-\include{pesquisa/pesquisa}
-\newpage
 
-\include{ordenacao/ordenacao}
-\newpage
+% morreu
+% \include{matematica/matematica}
+% \newpage
+\chapter{Matemática}
+    \section{Combinatória}
+        \subsection{Fórmulas}
+            \input{matematica/combinatoria/formulas}
+        \subsection{Triângulo de Pascal}
+            \input{matematica/combinatoria/pascal}
+            \newpage
+        \subsection{Troco Ótimo}
+            \input{matematica/combinatoria/troco_otimo}
+            \newpage
+    \section{Recorrências}
+        \input{matematica/combinatoria/recorrencias}
+        \newpage
+    \section{Teoria dos Números}
+        \subsection{Exponenciação Rápida}
+            \input{matematica/teoria_numeros/modular_exp.tex}
+            \newpage
+    \section{Estatística e Probabilidade}
+        \input{matematica/statistics/statistics}
+        \newpage
+        \input{matematica/statistics/probability}
+        \newpage
+    \section{Geometria Computacional}
+        \subsection{Fórmulas e Estruturas}
+            \input{matematica/geometria/formulas}
+            \newpage
+        
+\chapter{Estruturas de Dados}
+    \section{Union-Find}
+        \input{ds/union_find}
+    \section{Árvore Binaria Simples}
+        \input{ds/arvore_binaria}
+        
+
+% \include{pesquisa/pesquisa}
+% \newpage
+
+% \include{ordenacao/ordenacao}
+% \newpage
 
 \chapter{Grafos}
     \section{Teoremas Fundamentais}
-        \include{grafos/teoremas}
+        \input{grafos/teoremas}
+        \newpage
     \section{Travessias}
-        \include{grafos/dfs}
-        \include{grafos/bfs}
-        \include{grafos/floodfill}
-        \include{grafos/ordenacao_topologica}
+        \input{grafos/dfs}
+        \input{grafos/bfs}
+        \input{grafos/floodfill}
+        \input{grafos/ordenacao_topologica}
+        \newpage
     \section{Árvores}
-        \include{grafos/kruskal}
+        \input{grafos/kruskal}
+        \input{grafos/prim}
+        \newpage
     \section{Rotas}
-        \include{grafos/caminho_euleriano}
-        \include{grafos/caminho_hamiltoniano}
-        \include{grafos/dijkstra}
-        \include{grafos/caixeiro_viajante}
+        \input{grafos/caminho_euleriano}
+        \input{grafos/caminho_hamiltoniano}
+        \input{grafos/dijkstra}
+        \input{grafos/bellman_ford}
+        \input{grafos/caixeiro_viajante}
+        \newpage
     \section{Fluxo}
 \newpage
 
-\include{string/string}
+\chapter{String}
+    \section{Shunting-Yard}
+        \input{string/shunting_yard}
+        \newpage
+    \section{Todas as Ocorrências de uma String}
+        \input{string/todas_ocorrencias}
+    \section{Longest Common SubString}
+        \input{string/lcs}
 \newpage
 
-\include{geometria/gc}
-\newpage
 
-\include{matematica/matematica}
-\newpage
+% morreu
+% \input{geometria/gc}
+% \newpage
 
+% morreu
 % \include{programacao_dinamica}
 % \newpage
 
-% \include{checklist}
-% \newpage
-
-% \include{solucoes_de_problemas}
-% \newpage
 
 \end{document}

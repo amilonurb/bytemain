@@ -1,89 +1,6 @@
 \chapter{Estruturas de Dados}
-\section{Union-Find}
-\begin{minted}[
-    frame=single,
-    %style=igor
-    %style=lovelace
-    %style=autumn
-    %style=vs
-    %%style=perldoc
-    %style=tango
-    %style=emacs
-    %style=friendly
-    %style=monokai %dark
-    %style=paraiso-dark %dark
-    %style=colorful
-    %style=pastie
-    style=paraiso-light
-    %style=default
-    %style=fruity
-]{cpp}
-vector<int> pai(NUM_NODES, NILL);
+\section{Binary Search Tree}
 
-int _find(int filho) {
-    if (pai[filho] == NILL) return filho;
-    return _find(pai[filho]);
-}
- 
-void _union(int x, int y) { pai[_find(x)] = _find(y); }
-
-bool formaCiclo(int x, int y) { return _find(x) == _find(y); }
-\end{minted}
-
-\section{Simple Binary Tree}
-\begin{lstlisting}[language=C++, title={Estrutura da Árvore}]
-struct arvore {
-    int val, cont;
-	arvore *e, *d;
-} *raiz;
-\end{lstlisting}
-
-\begin{lstlisting}[language=C++, title=Retorna um nó com este valor ou nulo]
-arvore *&buscar(arvore *&node, int val) {
-    if (node == nullptr || node->val == val) return node;
-    else if (val > node->val) return buscar(node->d, val);
-    return buscar(node->e,val);
-}
-\end{lstlisting} 
-
-\newpage
-\begin{lstlisting}[language=C++, title=Adiciona um novo elemento]
-void push(arvore *&node, int val) {
-    if (node == nullptr || node->val == val) {
-        node = new arvore;
-        node->val = val;
-    } else if (val > node->val) 
-    	push(buscar(node->d, val), val);
-    else if (val < node->val) 
-    	push(buscar(node->e, val), val);   
-    else node->cont++;
-}
-\end{lstlisting}
-\begin{lstlisting}[language=C++, title=Percursos]
-void pre_ordem(arvore *&node) {
-    if (node != nullptr) {
-        printf(" %d",node->val);
-        pre_ordem(node->e); 
-        pre_ordem(node->d);  
-    }
-}
-
-void em_ordem(arvore *&node) {
-    if (node != nullptr) {
-        em_ordem(node->e);
-        printf(" %d",node->val);
-        em_ordem(node->d);  
-    }
-}
-
-void pos_ordem(arvore *&node) {
-    if (node != nullptr) {
-        pos_ordem(node->e);
-        pos_ordem(node->d);
-        printf(" %d",node->val);    
-    } 
-}
-\end{lstlisting}
 \newpage
 
 \section{Red Black Tree}
@@ -91,7 +8,7 @@ void pos_ordem(arvore *&node) {
 \section{Trie}
 \section{Segment Tree}
 \begin{lstlisting}[language=C++, title={Implementação Eficiente}]
-const int N = 100000; 
+const int N = 100000;
  
 int tree[2 * N];
  

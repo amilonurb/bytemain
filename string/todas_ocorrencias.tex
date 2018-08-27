@@ -1,0 +1,15 @@
+\begin{lstlisting}[language=C++]
+v(int) todasOcorrencias(string &a, string &b){
+	int pos = 0;
+	v(int) ocorrencias;
+	
+	while(true) {
+		pos = a.find(b, pos);
+		if(pos == string::npos) break;
+		ocorrencias.push_back(pos);
+		pos+=b.size();		
+	}
+	
+	return ocorrencias;
+}
+\end{lstlisting}

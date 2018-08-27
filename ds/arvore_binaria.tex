@@ -1,0 +1,65 @@
+\begin{lstlisting}[
+    language=C++,
+    emph={arvore}, 
+    emphstyle={\color{teal}}]
+struct arvore { int val, cont; arvore *e, *d; } *raiz;
+\end{lstlisting} 
+
+\begin{lstlisting}[
+    language=C++, title=Retorna um nó com este valor ou nulo,
+    emph={[1]buscar}, emphstyle={[1]\color{ceruleanblue}},
+    emph={[2]arvore}, emphstyle={[2]\color{teal}}]
+arvore *&buscar(arvore *&node, int val) {
+    if (node == nullptr || node->val == val) return node;
+    else if (val > node->val) return buscar(node->d, val);
+    return buscar(node->e,val);
+}
+\end{lstlisting} 
+\newpage
+
+\begin{lstlisting}[
+    language=C++, title=Adiciona um novo elemento,
+    emph={[1]buscar, push},
+    emphstyle={[1]\color{ceruleanblue}},
+    emph={[2]arvore}, emphstyle={[2]\color{teal}}]
+void push(arvore *&node, int val) {
+    if (node == nullptr or node->val == val) {
+        node = new arvore;
+        node->val = val;
+    } else if (val > node->val) 
+    	push(buscar(node->d, val), val);
+    else if (val < node->val) 
+    	push(buscar(node->e, val), val);   
+    else node->cont++;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[
+    language=C++, title=Percursos,
+    emph={[1]pre_ordem, em_ordem, pos_ordem, printf},
+    emphstyle={[1]\color{ceruleanblue}},
+    emph={[2]arvore}, emphstyle={[2]\color{teal}}]
+void pre_ordem(arvore *&node) {
+    if (node != nullptr) {
+        printf("%d", node->val);
+        pre_ordem(node->e); 
+        pre_ordem(node->d);  
+    }
+}
+
+void em_ordem(arvore *&node) {
+    if (node != nullptr) {
+        em_ordem(node->e);
+        printf("%d",node->val);
+        em_ordem(node->d);  
+    }
+}
+
+void pos_ordem(arvore *&node) {
+    if (node != nullptr) {
+        pos_ordem(node->e);
+        pos_ordem(node->d);
+        printf("%d",node->val);    
+    } 
+}
+\end{lstlisting}

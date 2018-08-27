@@ -1,0 +1,48 @@
+
+\begin{lstlisting}[language=C++]
+v(char) precedencia(ASCII,0);
+// operandos == 0
+#define isOperador(c) precedencia[c] > 0
+
+precedencia['+'] = 1;
+precedencia['-'] = 1;
+precedencia['*'] = 2;
+precedencia['/'] = 2;
+precedencia['%'] = 2;
+precedencia['^'] = 3;
+precedencia['('] = 4;
+precedencia[')'] = 4;
+
+string shuntingYard(string infix){
+	s(char) pilha;
+	string postfix;
+	
+	for(char &i : infix){
+		if(i == '('){
+			pilha.push(i);
+		}else if(i == ')'){
+			while(not pilha.empty() and (pilha.top() != '(')){
+				postfix += pilha.top();
+				pilha.pop();
+			}
+			pilha.pop(); // remove '('
+		}else if (isOperador(i)){
+			while(not pilha.empty() and (precedencia[i] <= pilha.top())){
+				postfix += pilha.top();
+				pilha.pop();
+			}
+			pilha.push(i);
+		}else{
+			postfix += i;
+		}
+	}
+
+	while(not pilha.empty()){
+		postfix += pilha.top();
+		pilha.pop();
+	}
+
+	return postfix;
+}
+
+\end{lstlisting}

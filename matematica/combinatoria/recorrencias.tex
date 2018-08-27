@@ -1,0 +1,46 @@
+\subsubsection{Fibonacci (1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597...)}
+\begin{flalign*}
+	f_{n} = \begin{cases}
+	1, & \mbox{if } n\geq 2 \\
+	f_{n-1}+f_{n-2}, & \mbox{otherwise} 
+	\end{cases} & \Rightarrow
+	round(f_{n-1} * \phi)\;|\;
+	\frac{(1 + \sqrt{5})^{n} - (1 - \sqrt{5})^{n}}{2^{n}\sqrt{5}}\;|\;
+	\left\lfloor\frac{\phi^{n}}{\sqrt{5}} + \frac{1}{2}\right\rfloor
+\end{flalign*}
+
+\subsubsection{Lucas (2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207,...)}
+\begin{flalign*}
+	L_{n} = \begin{cases}
+	2, & \mbox{if } n=0 \\
+	1, & \mbox{if } n=1 \\
+	L_{n-1}+L_{n-2}, & \mbox{otherwise} 
+	\end{cases} & \Rightarrow
+	\left(\frac{1 + \sqrt{5}}{2}\right)^n + \left(\frac{1 - \sqrt{5}}{2}\right)^n
+\end{flalign*}
+
+\subsubsection{Josephus (P/ k Saltos)}
+\begin{flalign*}
+	J_{n, k} = \begin{cases}
+	1, & \mbox{if } n=1 \\
+	\left(k-1+f(n-1,\;k)\right)\mod(n + 1), & \mbox{otherwise} 
+	\end{cases}
+\end{flalign*}
+
+\subsubsection{Catalan (1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012,...)}
+\begin{flalign*}
+	C_{n}= \begin{cases} 1, & \mbox{if } n=0 \\
+	\sum_{i=0}^{n} C_{i} C_{n-i}, & \mbox{otherwise}
+	\end{cases} & \Rightarrow
+	\frac{1}{n+1}\binom{2n}{n} \;|\;
+	\prod_{k=2}^{n} \frac{n+k}{k}
+\end{flalign*}
+
+\subsubsection{Resolução de RL's de 2a Ordem}
+\begin{itemize}
+	\item $\text{Base cases } T_{0} \text{ and } T_{1} \text{ ; }T_{n}=K_{1}*T_{n-1}\;\pm\;K_{2}*T_{n-2}$
+	\item $\text{Solve the equation }r^{2}-K_{1}r^{1}-K_{2}r^{0}=0$
+	\item $\text{The solution has the form }\alpha_{1}*r_{1}^{n}+ \alpha_{2}*r_{2}^{n}\text{ for two roots}$
+	\item $\text{The solution has the form }\alpha_{1}*r_{0}^{n}+ \alpha_{2}*n*r_{0}^{n}\text{ for one root}$
+	\item $\text{Use the base cases to find alpha constants by linear system}$
+\end{itemize}

@@ -1,0 +1,21 @@
+\begin{lstlisting}[
+    language={C++}, 
+    title={Conjuntos Disjuntos}, 
+    emph={[1]pai, _find, _union, formaCiclo},
+    emphstyle={[1]\color{ceruleanblue}},
+    emph={[2]vector},
+    emphstyle={[2]\color{teal}}]
+vector<int> pai(NUM_NODES, NILL);
+
+int _find(int filho) { 
+    return (pai[filho] == NILL) ? filho : _find(pai[filho]); 
+}
+ 
+void _union(int x, int y) { 
+    pai[_find(x)] = _find(y); 
+}
+
+bool formaCiclo(int x, int y) { 
+    return _find(x) == _find(y);
+}
+\end{lstlisting}

@@ -1,0 +1,19 @@
+\begin{lstlisting}[language=C++]
+// trocar "string" por "const string"
+int countLongestSubstring(string &s1, string &s2) {
+    int n1 = s1.size(), n2 = s2.size(),max = 0;
+    for (int i = 0; i < n1; i++) {
+        for (int j = 0; j < n2; j++) {
+            if (s1[i] == s2[j]) {
+                int c = 0, k = 0;
+                for (; (k + i) < n1 || (k + j) < n2; k++) {
+                    if (s1[k + i] != s2[k + j]) break;
+                    c++;
+                }
+                if (c > max) max = c;
+            }
+        }
+    }
+    return max;
+}
+\end{lstlisting}

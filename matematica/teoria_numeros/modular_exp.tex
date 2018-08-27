@@ -1,0 +1,32 @@
+\begin{multicols}{2}
+\begin{itemize}
+	\item $\left(a + b\right) \;\%\; c = 
+	      \left(\left(a \;\%\; c\right) + 
+	      \left(b \;\%\; c\right)\right) \;\%\; c$
+	\item $\left(a - b\right) \;\%\; c = 
+	      \left(\left[\left(a \;\%\; c\right) -
+	      \left(b \;\%\; c\right)\right] + c\right) \;\%\; c$
+	\item $\left(a \times b\right) \;\%\; c = 
+	      \left(\left(a \;\%\; c\right) \times
+	      \left(b \;\%\; c\right)\right) \;\%\; c$
+	
+	\vfill
+	
+	\item $\left(a \div b\right) \;\%\; c = 
+	      \left(\left(a \;\%\; c\right) \times
+	      \left(b^{-1} \;\%\; c\right)\right) \;\%\; c$
+	\item $a^{b} \;\%\; c = \left(a \;\%\; c\right)^{b} \;\%\; c$
+\end{itemize}
+\end{multicols}
+
+\begin{lstlisting}[language=C++, title=Algoritmo de Exponenciação Modular]
+int fastPower(int x, int n, int MOD) {
+    int y = x, result = 1;
+    while (n > 0) {
+        if (n & 1) result = (result % MOD * y % MOD) % MOD;
+        y = (y % MOD * y % MOD) % MOD;
+        n >>= 1;
+    }
+    return result;
+}
+\end{lstlisting}

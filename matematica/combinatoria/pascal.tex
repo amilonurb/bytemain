@@ -1,0 +1,16 @@
+\begin{displaymath}
+	\text{Regra de Formação: }
+	\binom{n}{k}=\binom{n-1}{k-1}\binom{n-1}{k}\\\\
+\end{displaymath}
+
+\begin{lstlisting}[
+    language=C++,
+    emph={m, v, MAX_N, MAX_K}, emphstyle={\color{teal}}]
+m(int) binomio(MAX_N + 1, v(int)(MAX_K + 1));
+void generateBinomialTable() {
+    for (int i = 0; i <= MAX_N; i++)
+		for (int j = 0; j <= i; j++)
+			binomio[i][j] = (j == 0) ? 1 :
+            binomio[i-1][j-1] + binomio[i-1][j];
+}
+\end{lstlisting}

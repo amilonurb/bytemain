@@ -1,35 +1,61 @@
 \subsection{Dijkstra}
-\begin{lstlisting}[language=C++]
-#define MAXN 100009
-#define INF (1 << 30)
+% \begin{lstlisting}[language=C++]
+% #define MAXN 100009
+% #define INF (1 << 30)
 
-typedef pair<int, int> ii;
-vector<ii> adjList[MAXN];
-int dist[MAXN], n, m;
+% typedef pair<int, int> ii;
+% vector<ii> adjList[MAXN];
+% int dist[MAXN], n, m;
 
-int dijkstra(int s, int t) {
-    for (int i = 1; i <= n; i++) dist[i] = INF; 
-    dist[s] = 0;
-    set<ii> nodes;
-    nodes.insert({0, s});
-    while(!nodes.empty()) {
-        int u = nodes.begin()->second;
-        nodes.erase(nodes.begin());
-        for (int i = 0; i < adjList[u].size(); i++) {
-            int v = adjList[u][i].second;
-            int w = adjList[u][i].first;
-            if (dist[v] > dist[v] + w)
-                nodes.erase({dist[v], v});
-            dist[v] = dist[u] + w;
-            nodes.insert({dist[v], v});
+% int dijkstra(int s, int t) {
+%     for (int i = 1; i <= n; i++) dist[i] = INF; 
+%     dist[s] = 0;
+%     set<ii> nodes;
+%     nodes.insert({0, s});
+%     while(!nodes.empty()) {
+%         int u = nodes.begin()->second;
+%         nodes.erase(nodes.begin());
+%         for (int i = 0; i < adjList[u].size(); i++) {
+%             int v = adjList[u][i].second;
+%             int w = adjList[u][i].first;
+%             if (dist[v] > dist[v] + w)
+%                 nodes.erase({dist[v], v});
+%             dist[v] = dist[u] + w;
+%             nodes.insert({dist[v], v});
+%         }
+%     }
+%     return dist[t];
+% }
+% \end{lstlisting}
+% \newpage
+
+\begin{lstlisting}[language=C++, title=Usando fila de prioridade]
+int n; // quantidade de vertices
+h(int, l(par(int))) grafo;
+
+void add(int x, int y, int z){
+    if(grafo.find(x) == grafo.end()) grafo.insert({x,{y,z}});
+    else grafo[x].push_back({y,z});
+}
+
+// retorna custo
+int djikstra(int origem, int destino) {
+    priority_queue< par(int), v(par(int)), greater<par(int)> > pq;
+    v(int) distancia(n, INF);
+    pq.push({0, origem });
+    distancia[origem] = 0;
+    while (not pq.empty()){
+        int x = pq.top().second;
+        pq.pop();
+        for( auto it = adj[x].begin(); it != adj[x].end(); ++it){
+            int y = (*it).first, peso = (*it).second;
+            if (distancia[y] > distancia[x] + peso){
+                distancia[y] = distancia[x] + weight;
+                pq.push({distancia[y], y});
+            }
         }
     }
-    return dist[t];
+    return distancia[destino];
 }
 \end{lstlisting}
-
-
-
-
-
 \newpage
