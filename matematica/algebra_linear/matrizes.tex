@@ -1,0 +1,49 @@
+\section{Matrizes}
+\begin{lstlisting}[language=C++]
+//#define MOD 1234567891
+#define MOD 1000000007
+M(int) matrixUnit(int n) {
+    M(int) res(n, V(int)(n));
+    for (int i = 0; i < n; i++) res[i][i] = 1;
+    return res;
+}
+
+M(int) matrixAdd(const M(int) &a, const M(int) &b) {
+    int n = a.size();
+    int m = a[0].size();
+    M(int) res(n, V(int)(m));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            res[i][j] = (a[i][j] + b[i][j]) % MOD;
+    return res;
+}
+
+M(int) matrixMul(const M(int) &a, const M(int) &b) {
+    int n = a.size();
+    int m = a[0].size();
+    int k = b[0].size();
+    M(int) res(n, V(int)(k));
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < k; j++)
+            for (int p = 0; p < m; p++)
+                res[i][j] = (res[i][j] + (big)
+                			(a[i][p] * b[p][j]) % MOD) % MOD;
+    return res;
+}
+
+M(int) matrixPow(const M(int) &a, int p) {
+    if (p == 0) return matrixUnit(a.size());
+    if (p & 1) return matrixMul(a, matrixPow(a, p - 1));
+    return matrixPow(matrixMul(a, a), p / 2);
+}
+
+M(int) matrixPowSum(const M(int) &a, int p) {
+    int n = a.size();
+    if (p == 0) return M(int)(n, V(int)(n));
+    if (p % 2 == 0)
+        return matrixMul(matrixPowSum(a, p / 2),
+        				 matrixAdd(matrixUnit(n), 
+                        		   matrixPow(a, p / 2)));
+    return matrixAdd(a, matrixMul(matrixPowSum(a, p - 1), a));
+}
+\end{lstlisting}

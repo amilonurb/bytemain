@@ -4,8 +4,10 @@
     emph={[1]pai, _find, _union, formaCiclo},
     emphstyle={[1]\color{ceruleanblue}},
     emph={[2]vector},
-    emphstyle={[2]\color{teal}}]
-vector<int> pai(NUM_NODES, NILL);
+    emphstyle={[2]\color{teal}}
+]
+// N = quantidade de vertices
+V(int) pai(N, NILL);
 
 int _find(int filho) { 
     return (pai[filho] == NILL) ? filho : _find(pai[filho]); 

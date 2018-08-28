@@ -1,0 +1,18 @@
+\begin{center}
+    Use sempre que possível
+\end{center}
+
+\begin{lstlisting}[
+    language=C++, 
+]
+// n = valor maximo; Usar se (n < 10^5)
+void countingSort(V(int) &v, int n){
+    n++; 
+    V(int) tbl(n,0);
+    while(not v.empty()){
+    	tbl[v.back()]++;
+    	v.POB();
+    }
+	for(int i=0;i<n;i++) while(tbl[i]--) v.PUB(i);
+}
+\end{lstlisting}

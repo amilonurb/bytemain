@@ -5,18 +5,18 @@
 \include{config/capa}
 
 % Dedicatórias
-\begin{dedication} 
-\Large{Ao nosso técnico Ricardo Mesquita, por confiar em nós. }
+\begin{dedication}
+\Large{Ao nosso técnico Ricardo Mesquita, por confiar em nós.}
 \end{dedication}
 
 % Sumário
 \tableofcontents
 
 % Vamos nos basear no contéudo do geeksforgeeks?
+% Estou me baseando no cp-algorithms e codelibrary
 
 % \include{taticas/linguagens}
 \chapter{Táticas}
-
 
 % morreu
 % \include{matematica/matematica}
@@ -36,7 +36,7 @@
         \newpage
     \section{Teoria dos Números}
         \subsection{Exponenciação Rápida}
-            \input{matematica/teoria_numeros/modular_exp.tex}
+            \input{matematica/teoria_numeros/modular_exp}
             \newpage
     \section{Estatística e Probabilidade}
         \input{matematica/statistics/statistics}
@@ -51,15 +51,17 @@
 \chapter{Estruturas de Dados}
     \section{Union-Find}
         \input{ds/union_find}
-    \section{Árvore Binaria Simples}
+        \newpage
+    \section{Árvore Binária de Busca}
         \input{ds/arvore_binaria}
-        
+        \newpage
 
 % \include{pesquisa/pesquisa}
-% \newpage
 
-% \include{ordenacao/ordenacao}
-% \newpage
+\chapter{Ordenação}
+    \section{Counting Sort}
+        \input{ordenacao/counting_sort}
+\newpage
 
 \chapter{Grafos}
     \section{Teoremas Fundamentais}

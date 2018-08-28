@@ -1,65 +1,90 @@
 \begin{lstlisting}[
     language=C++,
-    emph={arvore}, 
-    emphstyle={\color{teal}}]
-struct arvore { int val, cont; arvore *e, *d; } *raiz;
-\end{lstlisting} 
-
-\begin{lstlisting}[
-    language=C++, title=Retorna um nó com este valor ou nulo,
-    emph={[1]buscar}, emphstyle={[1]\color{ceruleanblue}},
-    emph={[2]arvore}, emphstyle={[2]\color{teal}}]
-arvore *&buscar(arvore *&node, int val) {
-    if (node == nullptr || node->val == val) return node;
-    else if (val > node->val) return buscar(node->d, val);
-    return buscar(node->e,val);
-}
-\end{lstlisting} 
-\newpage
-
-\begin{lstlisting}[
-    language=C++, title=Adiciona um novo elemento,
-    emph={[1]buscar, push},
+    emph={[1]push, pop, pre_order, in_order, post_order},
     emphstyle={[1]\color{ceruleanblue}},
-    emph={[2]arvore}, emphstyle={[2]\color{teal}}]
-void push(arvore *&node, int val) {
-    if (node == nullptr or node->val == val) {
-        node = new arvore;
-        node->val = val;
-    } else if (val > node->val) 
-    	push(buscar(node->d, val), val);
-    else if (val < node->val) 
-    	push(buscar(node->e, val), val);   
-    else node->cont++;
+    emph={[2]bst},
+    emphstyle={[2]\color{teal}}
+]
+struct bst { int key; bst *left, *right; };
+
+bst *push(bst *root, int key) {
+    if (root == nullptr) { 
+        root = new bst();
+        root->key = key;
+    } else if (key < root->key)
+        root->left = push(root->left, key);
+    else
+        root->right = push(root->right, key);
+    return root;
+}
+
+void pre_order(bst *root) {
+    if (root != nullptr) {
+        cout << root->key << ' ';
+        pre_order(root->left); pre_order(root->right);
+    }
+}
+
+void in_order(bst *root) {
+    if (root != nullptr) {
+        in_order(root->left);
+        cout << root->key << ' ';
+        in_order(root->right);
+    }
+}
+
+void post_order(bst *root) {
+    if (root != nullptr) {
+        post_order(root->left);
+        post_order(root->right);
+        cout << root->key << ' ';
+    }
 }
 \end{lstlisting}
 
+\newpage
+
 \begin{lstlisting}[
-    language=C++, title=Percursos,
-    emph={[1]pre_ordem, em_ordem, pos_ordem, printf},
-    emphstyle={[1]\color{ceruleanblue}},
-    emph={[2]arvore}, emphstyle={[2]\color{teal}}]
-void pre_ordem(arvore *&node) {
-    if (node != nullptr) {
-        printf("%d", node->val);
-        pre_ordem(node->e); 
-        pre_ordem(node->d);  
+    language=C++,
+    emph={[1]pop, search}, emphstyle={[1]\color{ceruleanblue}},
+    emph={[2]bst}, emphstyle={[2]\color{teal}}
+]
+bst *pop(bst *root, int key) {
+    bst *nodeA, *nodeB;
+    if (root->key == key) {
+        if (root->left == root->right) {
+            return nullptr;
+        } else if (root->left == nullptr) {
+            nodeA = root->right;
+            return nodeA;
+        } else if (root->right == nullptr) {
+            nodeA = root->left;
+            return nodeA;
+        } else {
+            nodeB = root->right;
+            nodeA = root->right;
+            while (nodeA->left != nullptr) {
+                nodeA = nodeA->left;
+            }
+            nodeA->left = root->left;
+            return nodeB;
+        }
+    } else if (root->key < key) {
+        root->right = pop(root->right, key);
+    } else {
+        root->left = pop(root->left, key);
     }
+    return root;
 }
 
-void em_ordem(arvore *&node) {
-    if (node != nullptr) {
-        em_ordem(node->e);
-        printf("%d",node->val);
-        em_ordem(node->d);  
+bool search(bst *root, int key) {
+    if (root != nullptr) {
+        if (root->key == key)
+            return true;
+        if (key < root->key)
+            return search(root->left, key);
+        return search(root->right, key);
     }
-}
-
-void pos_ordem(arvore *&node) {
-    if (node != nullptr) {
-        pos_ordem(node->e);
-        pos_ordem(node->d);
-        printf("%d",node->val);    
-    } 
+    return false;
 }
 \end{lstlisting}
