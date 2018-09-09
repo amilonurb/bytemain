@@ -1,0 +1,30 @@
+\begin{lstlisting}[language=C++,title=lista de adjacêncica]
+// {vertice,valor}
+v(l(par(int,int))) grafo;
+s(int) caminho;
+v(bool) visitado;
+int peso = 0;
+
+par(int,int) getFilho(int pai){
+    for(auto it=grafo[pai].begin();it!=grafo[pai].end();++it)
+        if(not visitado[it->fi]) return *it;
+    return {NILL,NILL};
+}
+
+void dfs(int atual){
+    par(int,int) filho = getFilho(atual);
+    visitado[atual] = true;
+
+    if(filho.fi != NILL){
+        // printf("desce G(%d,%d)\n",atual,filho.fi);
+        peso += filho.se;
+        caminho.push(atual);
+        dfs(filho.fi);
+    }else if( not caminho.empty()){
+        int pai = caminho.top();
+        // printf("sobe G(%d,%d)\n",atual,pai);
+        caminho.pop();
+        dfs(pai);
+    }
+}
+\end{lstlisting}

@@ -1,10 +1,4 @@
-\chapter{Linguagens}
-\section{C++}
-\begin{lstlisting}[language=C++, title={Importar a STL inteira}]
-#include <bits/stdc++.h>
-using namespace std;
-\end{lstlisting}
-
+\subsection*{C++}
 \begin{lstlisting}[language=C++, title={Acelerar digitação}]
 #define ASCII 255
 #define INF (1 << 33)
@@ -12,32 +6,26 @@ using namespace std;
 #define b(x) bitset<x>
 #define p(x) stack<x>
 #define v(x) vector<x>
-#define m(x) V(V(x))
+#define m(x) v(v(x))
 #define d(x) deque<x>
 #define l(x) list<x>
 #define h(x, y) map<x, y>
 #define s(x) set<x>
-#define pub(x) push_back(x)
-#define pob(x) pop_back(x)
-#define puf(x) push_front(x)
-#define pof(x) pop_front(x)
-#define add(x) insert(x)
-#define rm(x)  erase(x)
+#define pub push_back
+#define pob pop_back
+#define puf push_front
+#define pof pop_front
+#define add insert
+#define rm  erase
 #define all(x) x.begin(), x.end()
 #define par(x) pair<x, x>
+#define fi first
+#define se second
 \end{lstlisting}
 
-\begin{lstlisting}[language=C++, title={Acelerar I/O sem scanf}]
-ios_base::sync_with_stdio(0);
-cin.tie(0);
-\end{lstlisting}
 \newpage
 
-\section{Python 3}
-\begin{lstlisting}[language=Python, title={Codificação}]
-# -*- coding: utf-8 -*-
-\end{lstlisting}
-
+\subsection*{Python 3}
 \begin{lstlisting}[language=Python, title={Tamanho da Pilha de Recursão}]
 import sys
 sys.setrecursionlimit(LIM)
@@ -65,7 +53,7 @@ while True:
 \begin{lstlisting}[language=Python, title={Múltiplas Entradas na Mesma Linha}]
 a, b, c = map(tipo, input().split("separador"))
 \end{lstlisting}
-\section{Java}
+\subsection*{Java}
 \begin{lstlisting}[language=Java, title={Bibliotecas importantes}]
 import java.math.BigInteger;
 import java.util.*;

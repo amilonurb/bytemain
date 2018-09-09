@@ -1,0 +1,43 @@
+\subsubsection*{Função Totiente de Euler (\(\phi\)) \{1, 1, 2, 2, 4, 2, 6, 4, 6, 4, 10, 4, 12, 6, 8, ...\}}
+\large{\(\phi(n) = n \prod_{p | n} \left(1 - 1/p\right)\) -> Calcula o número de inteiros positivos menores que n e que são relativamente primos (coprimos [mdc(x, y) = 1]) a n}
+\begin{lstlisting}[language=C++]
+big phi(big n) {// primes gerado por Crivo
+	big i = 0, p = primes[i], answer = n;
+	while (p * p <= n) {
+		if (n % p == 0) answer -= answer / p;
+		while (n % p == 0) n /= p;
+		p = primes[++i];
+	}
+	if (n != 1) answer -= answer / n;
+	return answer;
+}
+
+big phi_linear(big n) {
+    big answer = n;
+    for (big i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            while (n % i == 0) n /= i;
+            answer -= answer / i;
+        }
+    }
+    if (n > 1) answer -= answer / n;
+    return answer;
+}
+
+v(int) generatePhi(int limit) {
+    v(int) answer(limit + 1);
+    for (int i = 1; i <= limit; i++) answer[i] = i;
+    for (int i = 1; i <= limit; i++) {
+        for (int j = i + i; j <= limit; j += i)
+            answer[j] -= answer[i];
+    }
+    return answer;
+}
+\end{lstlisting}
+
+\subsubsection*{Equações Diofantinas}
+\large{
+    São equações no formato \(Ax + By = C\), onde A, B e C são constantes, x e y são as incógnitas e todos os valores são inteiros.\\
+    Se C é divisivel por gdc(A, B), a equação tem solução.\\
+    Se um par (x, y) é uma solução, então todos os pares \(\left(x+\frac{kB}{gcd(A, B)}, y-\frac{kA}{gcd(A, B)}\right)\) também serão.
+}

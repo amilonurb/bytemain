@@ -1,0 +1,10 @@
+\subsubsection{Número de Soluções de uma Equação Linear}
+\begin{lstlisting}[language=C++]
+// a: coeficientes, b: resultado
+int countSolutions(v(int) a, int b) {
+    int dp[b + 1]; dp[0] = 1;
+    for (int i = 0; i < a.size(); i++)
+        for (int j = a[i]; j <= b; j++) dp[j] += dp[j-a[i]];
+    return dp[b];
+}
+\end{lstlisting}

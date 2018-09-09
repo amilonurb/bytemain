@@ -13,4 +13,11 @@ void generateBinomialTable() {
 			binomio[i][j] = (j == 0) ? 1 :
             binomio[i-1][j-1] + binomio[i-1][j];
 }
+
+big binomial_linear(int n, int k) {
+    double result = 1;
+    for (int i = 1; i <= k; i++)
+        result *= ((n - k + i) / i);
+    return (long long int)(result + 0.01);
+}
 \end{lstlisting}

@@ -1,0 +1,28 @@
+\large{
+    Dada uma sequência de matrizes, informe o número ótimo de multiplicações, ou seja, considerando que a operação de multiplicação de matrizes é associativa (ex: A(BC) <=> (AB)C), qual é a melhor maneira de multiplicar as matrizes, de modo a minimizar a quantidade de operações?\\
+    Ex: A[10][30], B[30][5], C[5][60]\\
+        (AB)C = (10*30*5) + (10*5*60) = 4500\\
+        A(BC) = (30*5*60) + (10*30*60) = 27000
+}
+\begin{lstlisting}[language=C++]
+int matrixChainMultiplication(v(int) matrix) {
+    int n = matrix.size();
+    int minimumCost[n][n];
+    for (int i = 1; i < n; i++) minimumCost[i][i] = 0;
+    for (int l = 2; l < n; l++) {
+        for (int i = 1; i <= n - l; i++) {
+            int j = i + l - 1;
+            minimumCost[i][j] = INT_MAX;
+            for (int k = i; k < j; k++) {
+                int current = minimumCost[i][k] + 
+                              minimumCost[k + 1][j] + 
+                              matrix[i - 1] * matrix[k] * 
+                              matrix[j];
+                minimumCost[i][j] = min(minimumCost[i][j],
+                                        current);
+            }
+        }
+    }
+    return minimumCost[1][n - 1];
+}
+\end{lstlisting}

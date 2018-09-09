@@ -1,0 +1,109 @@
+\subsubsection{Testes de Primalidade}
+\begin{lstlisting}[language=C++]
+bool is_prime(big n) {
+    if (n < 0) return is_prime(n * (-1));
+    for (big i = 2; i * i < n; i++)
+        if (n % i == 0) return false;
+    return true;
+}
+
+bool is_prime_fast(big n) {
+    if (n < 0) n = n * (-1);
+    if (n < 5 || n % 2 == 0 || n % 3 == 0)
+        return (n == 2 || n == 3);
+    big limit = sqrt(n) + 2;
+    for (big p = 5; p < limit; p += 6) {
+        if (p < n && n % p == 0) return false;
+        if ((p + 2) < n && n % (p + 2) == 0) return false;
+    }
+    return true; }
+\end{lstlisting}
+
+\subsubsection{Crivo de Eratóstenes}
+\begin{lstlisting}[language=C++]
+big sieve_size; bs(MAX) isp; v(big) primes;
+void sieve(big n) {
+    sieve_size = n + 1; isp.set(); isp[0] = isp[1] = 0;
+    for (big i = 2; i <= sieve_size; i++) {
+        if (isp[i])
+            for (big j = (i * i); j <= sieve_size; j += i)
+            isp[j] = 0;
+        primes.pb(i); } }
+
+bool is_prime_sieve(big n) {
+    if (n <= sieve_size) return isp[n];
+    for (int i = 0; (i < primes.size()) && 
+                    (primes[i] * primes[i] <= n); i++) {
+        if (n % primes[i] == 0) return false; }
+    return true; }
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{Crivo de Atkin}
+\begin{lstlisting}[language=C++]
+v(int) atkinSieve(int limit) {
+    v(int) sieve;
+    if (limit > 2) sieve.pb(2);
+    if (limit > 3) sieve.pb(3);
+    v(bool) is_prime(limit + 1, false);
+    for (int x = 1; x * x < limit; x++) {
+        for (int y = 1; y * y < limit; y++) {
+            // Main part of Sieve of Atkin
+            int n = (4 * x * x) + (y * y);
+            if (n <= limit && (n % 12 == 1 || n % 12 == 5))
+                is_prime[n] = (is_prime[n] ^ true);
+            n = (3 * x * x) + (y * y);
+            if (n <= limit && n % 12 == 7)
+                is_prime[n] = (is_prime[n] ^ true);
+            n = (3 * x * x) - (y * y);
+            if (x > y && n <= limit && n % 12 == 11)
+                is_prime[n] = (is_prime[n] ^ true);
+        }
+    }
+
+    // Mark all multiples of squares as non-prime
+    for (int r = 5; r * r < limit; r++) {
+        if (is_prime[r])
+            for (int i = r * r; i < limit; i += r * r)
+                is_prime[i] = false;
+    }
+
+    for (int a = 5; a <= limit; a++)
+        if (is_prime[a]) sieve.pb(a);
+    
+    return sieve;
+}
+\end{lstlisting}
+
+\newpage
+
+\subsubsection{Fatoração de Primos}
+\begin{lstlisting}[language=C++]
+v(int) primeFactors(big n) {// primes gerado por Crivo
+    v(int) factors; big index = 0, pf = primes[index];
+    while ((pf * pf) <= n) {
+        while (n % pf == 0) { n /= pf; factors.pb(pf); }
+        pf = primes[++index]; }
+    if (n != 1) { factors.pb(n); } return factors;
+}
+
+big number_of_divisors(big n) {
+	big i = 0, p = primes[i], answer = 1;
+	while (p * p <= n) {
+		big power = 0;
+		while (n % p == 0) { n /= p; power++; }
+		answer *= (power + 1); p = primes[++i];
+	}
+	if (n != 1) { answer *= 2; } return answer;
+}
+
+big numDiffPF[MAXN];// num de fatores primos distintos
+void genDiffPF() {
+	memset(numDiffPF, 0, sizeof(numDiffPF));
+	for (int i = 2; i < MAXN; i++) {
+		if (numDiffPF[i] == 0)
+			for (int j = i; j < MAXN; j += i) numDiffPF[j]++;
+	}
+}
+\end{lstlisting}

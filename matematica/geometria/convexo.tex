@@ -1,0 +1,39 @@
+Sobre a Versão 1: caso precise considerar os pontos no meio de uma aresta, trocar o teste $ccw$ para $\geq 0$.\\
+CUIDADO: Se todos os pontos forem colineares, vai dar RTE.
+\begin{lstlisting}[language=C++, title=Fecho Convexo - Versão 1]
+point pivot(0, 0);
+
+v(point) convexHull(v(point) P) {
+	int i, j, n = (int) P.size(); if (n <= 2) return P;
+	int P0 = leftmostIndex(P); swap(P[0], P[P0]);
+	pivot = P[0];
+	sort(++P.begin(), P.end(), angleCmp);
+	v(point) S; S.pub(P[n - 1]); S.pub(P[0]); S.pub(P[1]);
+	for (i = 2; i < n;) {
+		j = (int) S.size() - 1;
+		if (ccw(S[j - 1], S[j], P[i])) S.pub(P[i++]);
+		else S.pob();
+	}
+	reverse(all(S)); S.pop_back(); reverse(all(s));
+	return S;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title=Fecho Convexo - Versão 2 - Andrew's Monotone Chain]
+v(ponto) convexHullMC(v(ponto) poligono) {
+    size_t n = poligono.size(), k = 0;
+	if (n <= 3) return poligono;
+	vector<ponto> hull(2 * n); sort(all(poligono));
+	// Build lower hull
+	for (size_t i = 0; i < n; i++) {
+		while (k >= 2 && cross(hull[k - 2], hull[k - 1],
+		                       poligono[i]) <= 0) k--;
+		hull[k++] = poligono[i]; }
+	// Build upper hull
+	for (size_t i = n - 1, t = k + 1; i > 0; i--) {
+		while (k >= t && cross(hull[k - 2], hull[k - 1],
+		                       poligono[i - 1]) <= 0) k--;
+		hull[k++] = poligono[i - 1]; }
+	hull.resize(k - 1);
+	return hull; }
+\end{lstlisting}

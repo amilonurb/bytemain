@@ -1,0 +1,118 @@
+A implementação do ponto como struct ajuda a otimizar algumas operações - por conta da sobrecarga dos operadores, mas perde-se mais tempo escrevendo. Sempre que possível, dar preferência para $par(double)$ e adaptar as funções de ponto para tal tipo - o que é bastante rápido. Operações com Vetores utilizam as funções de ponto.
+
+\begin{lstlisting}[language=C++, title=Parte 1: Estrutura]
+struct point {
+    double x, y; point(): x(0), y(0) {}
+    point(double _x, double _y): x(_x), y(_y) {}
+    
+    double norm() { return hypot(x, y); }
+    
+    point normalized() {
+        return point(x, y) * (1.0 / norm()); }
+        
+    double polarAngle() {
+		double a = atan2(y, x);
+		return a < 0 ? a + 2 * acos(-1.0) : a; }
+		
+	bool operator<(point other) const {
+		if (fabs(x - other.x) > EPS) return x < other.x;
+		else return y < other.y; }
+    
+	bool operator==(point other) const {
+		return (fabs(x - other.x) < EPS && 
+		       (fabs(y - other.y) < EPS)); }
+    
+	point operator+(point other) const {
+		return point(x + other.x, y + other.y); }
+    
+	point operator-(point other) const {
+		return point(x - other.x, y - other.y); }
+		
+	point operator*(double k) const {
+		return point(x * k, y * k); }
+};
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: Operações]
+double distance(point p1, point p2) {
+	return hypot(p1.x - p2.x, p1.y - p2.y); }
+
+double innerProduct(point p1, point p2) {
+	return p1.x * p2.x + p1.y * p2.y; }
+
+double crossProduct(point p1, point p2) {
+	return p1.x * p2.y - p1.y * p2.x; }
+
+bool ccw(point p, point q, point r) {
+	return crossProduct(q - p, r - p) > 0; }
+
+bool collinear(point p, point q, point r) {
+	return fabs(crossProduct(p - q, r - p)) < EPS; }
+
+point rotate(point p, double rad) {
+	return point(p.x * cos(rad) - p.y * sin(rad), 
+	             p.x * sin(rad) + p.y * cos(rad)); }
+
+double angle(point a, point o, point b) {
+	return acos(innerProduct(a - o, b - o) / 
+	           (distance(o, a) * distance(o, b))); }
+
+point proj(point u, point v) {
+	return v * (innerProduct(u, v) / innerProduct(v, v)); }
+
+bool between(point p, point q, point r) {
+	return collinear(p, q, r) && inner(p - q, r - q) <= 0; }
+
+point lineIntersectSeg(point p, point q, point A, point B) {
+	double c = crossProduct(A - B, p - q);
+	double a = crossProduct(A, B), b = crossProduct(p, q);
+	return ((p - q) * (a / c)) - ((A - B) * (b / c)); }
+
+bool parallel(point a, point b) {
+	return fabs(crossProduct(a, b)) < EPS; }
+
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: Operações (cont.)]
+bool segIntersects(point a, point b, point p, point q) {
+	if (parallel(a - b, p - q)) {
+		return between(a, p, b) || between(a, q, b) || 
+               between(p, a, q) || between(p, b, q); 
+	}
+	point i = lineIntersectSeg(a, b, p, q);
+	return between(a, i, b) && between(p, i, q);
+}
+
+point closestToLineSegment(point p, point a, point b) {
+	double u = inner(p - a, b - a) / inner(b - a, b - a);
+	if (u < 0.0) return a; if (u > 1.0) return b;
+	return a + ((b - a) * u); }
+
+// Outra forma de saber o ccw
+int ccw2(ponto &P0, ponto &P1, ponto &P2) {
+    int dx1 = P1.x - P0.x, dx2 = P2.x - P0.x;
+    int dy1 = P1.y - P0.y, dy2 = P1.y - P0.y;
+    if (dy1 * dx2 > dy2 * dx1) return -1;
+    if (dx1 * dy2 > dy1 * dx2) return 1;
+    if ((dx1 * dx2 < 0) || (dy1 * dy2 < 0)) return 1;
+    if ((dx1 * dx1 + dy1 * dy1) < (dx2 * dx2 + dy2 * dy2))
+        return -1;
+    return 0; }
+
+// corssProduct p/ 3 pontos
+int crossProduct2(ponto &O, ponto &A, ponto &B) {
+	return (A.x - O.x) * (B.y - O.y) - 
+	       (A.y - O.y) * (B.x - O.x); }
+
+// usado p/ convexHull
+bool angleCmp(point a, point b) {
+	if (collinear(pivot, a, b))
+		return inner(pivot - a, pivot - a) <
+		       inner(pivot - b, pivot - b);
+	return cross(a - pivot, b - pivot) >= 0;
+}
+\end{lstlisting}

@@ -1,15 +1,16 @@
 \begin{lstlisting}[language = C++]
-// n: total de moedas distintas, v: valor
-int minTroco(V(int) moeda, int n, int v) {
-	v++;
-	V(int) memo(v, INF); 
-	memo[0]=0;
-    for (int i=0;i<n;i++) memo[moeda[i]]=1;
-    for (int i=1;i<v;i++)
-    	for (int j=0;j<n;j++)
-        	if (i >= coins[j] and memo[i-coins[j]] != INF)
-            	memo[i] = min(memo[i], memo[i - moeda[j]] + 1);
-    if (memo[v] == INF) memo[v] = -1;
+int minTroco(v(int) moedas, int v) {
+	int n = moedas.size();
+	v(int) memo(v + 1, INT_MAX);
+	memo[0] = 0;
+    for (int i = 0; i < n; i++) memo[moedas[i]] = 1;
+    for (int i = 1; i <= v; i++)
+    	for (int j = 0; j < n; j++)
+        	if (i >= moedas[j] and 
+        	    memo[i - moedas[j]] != INT_MAX)
+            	memo[i] = min(memo[i], 
+            	              memo[i - moedas[j]] + 1);
+    if (memo[v] == INT_MAX) memo[v] = -1;
     return memo[v];
 }
 \end{lstlisting}

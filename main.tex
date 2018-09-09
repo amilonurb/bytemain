@@ -15,12 +15,19 @@
 % Vamos nos basear no contéudo do geeksforgeeks?
 % Estou me baseando no cp-algorithms e codelibrary
 
-% \include{taticas/linguagens}
 \chapter{Táticas}
-
-% morreu
-% \include{matematica/matematica}
-% \newpage
+    \section{Limites de Representação de Dados}
+        \input{taticas/limites}
+        \newpage
+    \section{Linguagens}
+        \input{taticas/linguagens}
+        \newpage
+    \section{Checklist}
+        \input{taticas/checklist}
+        \newpage
+    \section{Soluções de Problemas}
+        \input{taticas/solucoes_de_problemas}
+        \newpage
 \chapter{Matemática}
     \section{Combinatória}
         \subsection{Fórmulas}
@@ -35,18 +42,55 @@
         \input{matematica/combinatoria/recorrencias}
         \newpage
     \section{Teoria dos Números}
+        \subsection{Fórmulas Úteis}
+            \input{matematica/teoria_numeros/formulas}
+            \newpage
         \subsection{Exponenciação Rápida}
             \input{matematica/teoria_numeros/modular_exp}
             \newpage
-    \section{Estatística e Probabilidade}
+        \subsection{Números Primos}
+            \input{matematica/teoria_numeros/primos}
+    \section{Estatística (em Python)}
         \input{matematica/statistics/statistics}
         \newpage
-        \input{matematica/statistics/probability}
+    \section{Álgebra Linear}
+        \subsection{Matrizes}
+            \input{matematica/algebra_linear/matrizes}
+            \newpage
+        \subsection{Determinantes}
+            \input{matematica/algebra_linear/determinantes}
+            \newpage
+        \subsection{Sistemas Lineares}
+            \input{matematica/algebra_linear/sistemas}
+            \newpage
+    \section{Matrix Chain Multiplication}
+        \input{matematica/algebra_linear/mcm}
         \newpage
     \section{Geometria Computacional}
-        \subsection{Fórmulas e Estruturas}
+        \subsection{Fundamentos de Geometria Plana}
+            \input{matematica/geometria/primitivas}
+            \newpage
+        \subsection{Fórmulas}
             \input{matematica/geometria/formulas}
             \newpage
+        \subsection{Ponto}
+            \input{matematica/geometria/ponto}
+            \newpage
+        \subsection{Linha}
+            \input{matematica/geometria/linha}
+            \newpage
+        \subsection{Circunferência}
+            \input{matematica/geometria/circulo}
+            \newpage
+        \subsection{Triângulo}
+            \input{matematica/geometria/triangle}
+            \newpage
+        \subsection{Polígono}
+            \input{matematica/geometria/poligono}
+            \newpage
+            \subsubsection{Fecho Convexo}
+                \input{matematica/geometria/convexo}
+                \newpage
         
 \chapter{Estruturas de Dados}
     \section{Union-Find}
@@ -55,8 +99,6 @@
     \section{Árvore Binária de Busca}
         \input{ds/arvore_binaria}
         \newpage
-
-% \include{pesquisa/pesquisa}
 
 \chapter{Ordenação}
     \section{Counting Sort}
@@ -68,13 +110,18 @@
         \input{grafos/teoremas}
         \newpage
     \section{Travessias}
-        \input{grafos/dfs}
-        \input{grafos/bfs}
-        \input{grafos/floodfill}
-        \input{grafos/ordenacao_topologica}
+        \subsection*{Depth-First-Search}
+            \input{grafos/dfs}
+        \subsection*{Breadth-First-Search}
+            \input{grafos/bfs}
+        \subsection*{Flood Fill}
+            \input{grafos/floodfill}
+        \subsection*{Topological Sort}
+            \input{grafos/ordenacao_topologica}
         \newpage
     \section{Árvores}
-        \input{grafos/kruskal}
+        \subsection*{Deep-First-Search}
+            \input{grafos/kruskal}
         \input{grafos/prim}
         \newpage
     \section{Rotas}
@@ -96,15 +143,5 @@
     \section{Longest Common SubString}
         \input{string/lcs}
 \newpage
-
-
-% morreu
-% \input{geometria/gc}
-% \newpage
-
-% morreu
-% \include{programacao_dinamica}
-% \newpage
-
 
 \end{document}

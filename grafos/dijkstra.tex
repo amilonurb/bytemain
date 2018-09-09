@@ -40,14 +40,16 @@ void add(int x, int y, int z){
 
 // retorna custo
 int djikstra(int origem, int destino) {
-    priority_queue< par(int), v(par(int)), greater<par(int)> > pq;
+    priority_queue< par(int), v(par(int)), 
+        greater<par(int)> > pq;
     v(int) distancia(n, INF);
     pq.push({0, origem });
     distancia[origem] = 0;
     while (not pq.empty()){
         int x = pq.top().second;
         pq.pop();
-        for( auto it = adj[x].begin(); it != adj[x].end(); ++it){
+        for( auto it = adj[x].begin(); it != adj[x].end(); 
+        ++it){
             int y = (*it).first, peso = (*it).second;
             if (distancia[y] > distancia[x] + peso){
                 distancia[y] = distancia[x] + weight;
