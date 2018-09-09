@@ -9,8 +9,67 @@
 \end{itemize}
 
 \subsubsection*{Condições para a Existência de um Triângulo}
-\centering{
+\begin{center}
 \(1.\;| b - c | < a < b + c\;\;\;\)
 \(2.\;| a - c | < b < a + c\;\;\;\) 
 \(3.\;| a - b | < c < a + b\)
+\end{center}
+
+\begin{lstlisting}[language=C++, title=Parte I de II]
+struct triangle {
+	point a, b, c;
+	triangle() { a = b = c = point(); }
+	triangle(point a, point b, point c) : a(a), b(b), c(c) {}
+	
+	double perimeter() { 
+	    return dist(a, b) + dist(b, c) + dist(c, a); }
+	double semiPerimeter() {return perimeter() / 2.0; }
+	
+	double area() {
+		double s = semiPerimeter(), ab = dist(a,b), 
+		       bc = dist(b,c), ca = dist(c,a);
+		return sqrt(s * (s- ab) * (s - bc) * (s - ca)); }
+		
+	double rInCircle() { return area() / semiPerimeter(); }
+	circle inCircle() { return incircle(a, b, c); }
+
+	double rCircumCircle() {
+		return dist(a, b) * dist(b, c) * 
+		       dist(c, a) / (4.0 * area());
+	}
+
+	circle circumCircle() {
+		return circumcircle(a, b, c);
+	}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte II de II]
+	int isInside(point p) {
+		double u = crossProduct(b - a, p - a) * 
+		           crossProduct(b - a, c - a);
+		double v = crossProduct(c - b, p - b) * 
+		           crossProduct(c - b, a - b);
+		double w = crossProduct(a - c, p - c) * 
+		           crossProduct(a - c, b - c);
+		if (u > 0.0 && v > 0.0 && w > 0.0)
+			return 0;// inside
+		if (u < 0.0 || v < 0.0 || w < 0.0)
+			return 2;// outside
+		return 1;// border
+	}
+};// FIM DA STRUCT
+
+double rInCircle(point a, point b, point c) {
+	return triangle(a, b, c).rInCircle();
 }
+
+double rCircumCircle(point a, point b, point c) {
+	return triangle(a, b, c).rCircumCircle();
+}
+
+int isInsideTriangle(point a, point b, point c, point p) {
+	return triangle(a, b, c).isInside(p);
+} //0 = inside/ 1 = border/ 2 = outside
+\end{lstlisting}

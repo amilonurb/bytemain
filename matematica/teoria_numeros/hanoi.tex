@@ -1,0 +1,15 @@
+\begin{lstlisting}[language=C++]
+// 2^n - 1 = qtd de movimentos
+void hanoi(int n, char orig, char dest, char aux){
+    if(n == 1){
+        cout << "Move disco 1 de " << orig;
+        cout << " para " << dest << endl;
+    }
+    else{
+        hanoi(n-1, orig, aux, dest);
+        cout << "Move disco " << n << " de ";
+        cout << orig << " para " << dest << endl;
+        hanoi(n-1, aux, dest, orig);
+    }
+}
+\end{lstlisting}

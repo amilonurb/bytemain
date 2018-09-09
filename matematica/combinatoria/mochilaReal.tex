@@ -1,0 +1,28 @@
+\begin{lstlisting}[language=c++, title=consegue quebrar os itens para caber]
+struct item { int v, p; };
+v(item) opcao;
+
+double mochilaReal(int lim){
+	const int n = opcao.size();
+	int pesoAtual = 0; 
+	double res = 0;
+
+	sort(opcao.begin(), opcao.end(), 
+	[](item &a, item &b)->bool{
+		return (double)a.v / a.p > (double)b.v / b.p;
+	});
+
+	for (int i = 0; i < n; i++){
+		if(pesoAtual + opcao[i].p <= lim){
+			pesoAtual += opcao[i].p;
+			res += opcao[i].v;
+		}else{
+			res += opcao[i].v * (double) (lim - pesoAtual) 
+			       / opcao[i].p;
+			break;
+		}
+	}
+
+	return res;
+}
+\end{lstlisting}

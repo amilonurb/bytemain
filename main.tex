@@ -38,6 +38,15 @@
         \subsection{Troco Ótimo}
             \input{matematica/combinatoria/troco_otimo}
             \newpage
+        \subsection{Mochila Bool}
+            \input{matematica/combinatoria/mochilaBool}
+        \subsection{Mochila Infinta}
+            \input{matematica/combinatoria/mochilaInfinita}
+            \newpage
+        \subsection{Mochila Real}
+            \input{matematica/combinatoria/mochilaReal}
+        \subsection{Kadane, lista de Soma Máxima Contínua}
+            \input{matematica/combinatoria/kadane}
     \section{Recorrências}
         \input{matematica/combinatoria/recorrencias}
         \newpage
@@ -50,6 +59,9 @@
             \newpage
         \subsection{Números Primos}
             \input{matematica/teoria_numeros/primos}
+            \newpage
+        \subsection{Torre de Hanói}
+            \input{matematica/teoria_numeros/hanoi}
     \section{Estatística (em Python)}
         \input{matematica/statistics/statistics}
         \newpage
@@ -67,12 +79,10 @@
         \input{matematica/algebra_linear/mcm}
         \newpage
     \section{Geometria Computacional}
-        \subsection{Fundamentos de Geometria Plana}
-            \input{matematica/geometria/primitivas}
-            \newpage
         \subsection{Fórmulas}
             \input{matematica/geometria/formulas}
             \newpage
+        \input{matematica/geometria/trig}
         \subsection{Ponto}
             \input{matematica/geometria/ponto}
             \newpage
@@ -80,7 +90,7 @@
             \input{matematica/geometria/linha}
             \newpage
         \subsection{Circunferência}
-            \input{matematica/geometria/circulo}
+            \input{matematica/geometria/circunferencia}
             \newpage
         \subsection{Triângulo}
             \input{matematica/geometria/triangle}
@@ -90,15 +100,18 @@
             \newpage
             \subsubsection{Fecho Convexo}
                 \input{matematica/geometria/convexo}
-                \newpage
+            \newpage
         
 \chapter{Estruturas de Dados}
     \section{Union-Find}
         \input{ds/union_find}
-        \newpage
+    \newpage
     \section{Árvore Binária de Busca}
         \input{ds/arvore_binaria}
-        \newpage
+    \newpage
+    \section{Árvore Rubro-Negra}
+        \input{ds/rb_tree}
+    \newpage
 
 \chapter{Ordenação}
     \section{Counting Sort}
@@ -108,7 +121,7 @@
 \chapter{Grafos}
     \section{Teoremas Fundamentais}
         \input{grafos/teoremas}
-        \newpage
+    \newpage
     \section{Travessias}
         \subsection*{Depth-First-Search}
             \input{grafos/dfs}
@@ -125,11 +138,18 @@
         \input{grafos/prim}
         \newpage
     \section{Rotas}
-        \input{grafos/caminho_euleriano}
-        \input{grafos/caminho_hamiltoniano}
-        \input{grafos/dijkstra}
-        \input{grafos/bellman_ford}
-        \input{grafos/caixeiro_viajante}
+        \subsection{Caminho Euleriano}
+            \input{grafos/caminho_euleriano}
+        \subsection{Caminho Hamiltoniano}
+            \input{grafos/caminho_hamiltoniano}
+        \subsection{Djikstra}
+            \input{grafos/dijkstra}
+        \subsection{Bellman Ford}
+            \input{grafos/bellman_ford}
+        \newpage
+        \subsection{TSP}
+            \input{grafos/caixeiro_viajante}
+        
         \newpage
     \section{Fluxo}
 \newpage
@@ -137,7 +157,10 @@
 \chapter{String}
     \section{Shunting-Yard}
         \input{string/shunting_yard}
-        \newpage
+    \newpage
+    \section{Postfix Calculator}
+        \input{string/postfix}
+    \newpage
     \section{Todas as Ocorrências de uma String}
         \input{string/todas_ocorrencias}
     \section{Longest Common SubString}

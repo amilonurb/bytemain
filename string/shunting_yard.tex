@@ -1,5 +1,5 @@
 
-\begin{lstlisting}[language=C++]
+\begin{lstlisting}[language=C++, title=Shunting-Yard (PART I)]
 v(char) precedencia(ASCII, 0);
 // operandos == 0
 #define isOperador(c) precedencia[c] > 0
@@ -27,7 +27,7 @@ string shuntingYard(string infix) {
 			pilha.pop(); // remove '('
 \end{lstlisting}
 
-\begin{lstlisting}[language=C++, title=Shunting-Yard (cont.)]
+\begin{lstlisting}[language=C++, title=Shunting-Yard (PART II)]
 		} else if (isOperador(i)) {
 			while (not pilha.empty() 
 			       and (precedencia[i] <= pilha.top())) {

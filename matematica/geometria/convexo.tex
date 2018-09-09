@@ -2,7 +2,6 @@ Sobre a Versão 1: caso precise considerar os pontos no meio de uma aresta, troc
 CUIDADO: Se todos os pontos forem colineares, vai dar RTE.
 \begin{lstlisting}[language=C++, title=Fecho Convexo - Versão 1]
 point pivot(0, 0);
-
 v(point) convexHull(v(point) P) {
 	int i, j, n = (int) P.size(); if (n <= 2) return P;
 	int P0 = leftmostIndex(P); swap(P[0], P[P0]);

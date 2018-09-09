@@ -1,0 +1,65 @@
+\begin{lstlisting}[language=C++, title=Parte I de II]
+struct circle {
+	point p; double raio;
+	circle() { p = point(); raio = 0; }
+	circle(point p, double raio): p(p), raio(raio) {}
+	
+	double area() { return acos(-1.0) * raio * raio; }
+	
+	double chord(double rad) {
+	    return 2 * raio * sin(rad / 2.0); }
+	    
+	double sector(double rad) {
+	    return 0.5 * rad * area() / acos(-1.0); }
+	    
+	bool intersects(circle other) {
+		return dist(p, other.p) < raio + other.raio; }
+		
+	bool contains(point p) {
+		return dist(this->p, p) <= raio + EPS; }
+		
+	// se o ponto estiver dentro asin retorna NAN
+	pair<point, point> getTangentPoint(point p) {
+		double d1 = dist(p, this->p);
+		double theta = asin(raio / d1);
+		point p1 = rotate(this->p - p, -theta);
+		point p2 = rotate(this->p - p, theta);
+		p1 = p1 * (sqrt(d1 * d1 - raio * raio) / d1) + p;
+		p2 = p2 * (sqrt(d1 * d1 - raio * raio) / d1) + p;
+		return make_pair(p1, p2);
+	}
+};
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte II de II]
+circle circumcircle(point a, point b, point c) {
+	circle answer;
+	point u = point((b - a).y, -(b - a).x);
+	point v = point((c - a).y, -(c - a).x);
+	point n = (c - b) * 0.5;
+	double t = crossProduct(u, n) / crossProduct(v, u);
+	answer.p = ((a + c) * 0.5) + (v * t);
+	answer.raio = dist(answer.p, a);
+	return answer;
+}
+
+int insideCircle(point p, circle c) {
+	if (fabs(dist(p , c.p) - c.raio) < EPS) return 1;//border
+	if (dist(p , c.p) < c.raio) return 0;//inside
+	return 2;//outside
+}
+
+// divisao por zero se os pontos forem colineares
+circle incircle(point p1, point p2, point p3) {
+    double m1 = dist(p2, p3);
+    double m2 = dist(p1, p3);
+    double m3 = dist(p1, p2);
+    point c = (p1 * m1 + p2 * m2 + p3 * m3) * 
+              (1 / (m1 + m2 + m3));
+    double s = 0.5 * (m1 + m2 + m3);
+    double r = sqrt(s * (s - m1) * (s - m2) * (s - m3)) / s;
+    return circle(c, r);
+}
+\end{lstlisting}

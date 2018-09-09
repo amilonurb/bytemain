@@ -1,36 +1,29 @@
-\begin{lstlisting}[language=C++]
-#define EPS 1e-9
-#define PI 3.14159265359
-struct linha { double a, b, c; };
-struct ponto {
-	double x, y;
-    bool operator<(const ponto &p) const {// util p/ sorting
-    	if (fabs(this.x - p.x) > EPS) return this.x < p.x;
-        return this.y < p.y;
-    }
-    bool operator==(const ponto &p) const {
-    	return fabs(x - p.x) < EPS && fabs(y - p.y) < EPS;
-    }
-};
-typedef struct { ponto centro; double raio; } circulo;
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{matematica/geometria/formulas1}
+\end{figure}
 
-double distancia(Ponto p1, Ponto p2){ //distancia euclidiana
-	return sqrt(pow((p1.x - p2.x), 2) + 
-    			pow((p1.y - p2.y), 2));
-}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{matematica/geometria/formulas2}
+\end{figure}
 
-ponto rotate(ponto p, double rad){
-	return ponto(p.x * cos(rad) - p.y * sin(rad),
-    			p.x * sin(rad) + p.y * sin(rad));
-}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{matematica/geometria/formulas3}
+\end{figure}
 
-float area_tr_eq(float side){return sqrt(3)/4 * side * side;}
-float peri_tr_eq(float side) { return 3 * side; }
-float area_circunscrita(float a) {
-    return (a * a * (PI / 3));
-}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{matematica/geometria/formulas4}
+\end{figure}
 
-int rectCount(int n, int m){ //quantos retangulos num grid
-    return (m * n * (n + 1) * (m + 1)) / 4;
-}
-\end{lstlisting}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{matematica/geometria/formulas5}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{matematica/geometria/formulas6}
+\end{figure}

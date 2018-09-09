@@ -1,0 +1,18 @@
+\begin{lstlisting}[language=c++, title=Itens nunca acabam]
+struct item{ int v, p; };  
+vector<item> opcao;
+v(int) memo;
+
+int mochilaInf(int lim) {
+    const int n = opcao.size(); 
+    // inicia tabela
+    memo = v(int)(lim+1,0);
+    // bottom-up
+    for(int i=0; i<=lim; i++) 
+        for(int j=0; j<n; j++) 
+            if(opcao[j].p <= i) 
+                memo[i] = max(memo[i], memo[i-opcao[j].p] 
+                          + opcao[j].v); 
+    return memo[lim]; 
+}
+\end{lstlisting}

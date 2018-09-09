@@ -1,0 +1,38 @@
+\begin{lstlisting}[language=c++, title=Itens acabam]
+struct item { int v, p; }; // {valor, peso}
+v(item) opcao;
+m(int) memo;
+
+int mochilaBool(int lim) { 
+  const int n = opcao.size();
+  // inicia tabela
+  for(int i=0; i <n+1; i++) memo.pub(v(int)(lim+1,0));
+  // bottom-up
+  for(int i = 0; i <= n; i++){ 
+    for(int j = 0; j <= lim; j++){ 
+      if(i==0 or j==0) memo[i][j] = 0; 
+      else if(opcao[i-1].p <= j) 
+        // verifique a possibilidade de usar min();
+        memo[i][j] = max(opcao[i-1].v
+                     + memo[i-1][j-opcao[i-1].p], 
+                     memo[i-1][j]); 
+      else memo[i][j] = memo[i-1][j]; 
+    } 
+  } 
+  return memo[n][lim]; 
+}
+
+// exe.: conteudoMochilaBool(LIM, mochilaBool(LIM));
+void conteudoMochilaBool(int lim, int res){
+  // desce a tabela 
+  for(int i = opcao.size()-1; i > 0 && res > 0; i--){ 
+    if( not(res == memo[i][lim])){ 
+      printf("%d ", opcao[i].p); 
+      res = res - opcao[i].v; 
+      lim -= opcao[i].p; 
+    } 
+  } 
+} 
+
+
+\end{lstlisting}

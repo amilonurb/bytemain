@@ -1,0 +1,9 @@
+\begin{lstlisting}[language = Python]
+def kadane(lista):
+	maximo = lista[0]
+	maximo_aqui = lista[0] 
+	for i in range(1,len(lista)):
+		maximo_aqui = max(lista[i], maximo_aqui + lista[i])
+		maximo = max(maximo, maximo_aqui)   
+	return maximo
+\end{lstlisting}

@@ -17,3 +17,27 @@ int countLongestSubstring(string &s1, string &s2) {
     return max;
 }
 \end{lstlisting}
+\newpage
+\begin{lstlisting}[language=C++]
+// versao alternativa, com matriz.
+// Verificar antes de imprimir
+int lcss(string X, string Y) { 
+    int m = X.length(), n = Y.length();
+    int result = 0, atual = 0;
+    int len[2][n];
+    
+    for(int i = 0; i <= m; i++){ 
+        for(int j = 0; j <= n; j++){ 
+            if(i == 0 || j == 0)
+                len[atual][j] = 0; 
+            else if(X[i - 1] == Y[j - 1]){ 
+                len[atual][j] = len[1 - atual][j - 1] + 1; 
+                result = max(result, len[atual][j]); 
+            }else
+                len[atual][j] = 0; 
+        }
+        atual = 1 - atual; 
+    }
+    return result; 
+} 
+\end{lstlisting}
