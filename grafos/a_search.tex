@@ -1,0 +1,197 @@
+\begin{lstlisting}[language=C++, title=Parte 1: Estrutura e funções auxiliares]
+#define MAX_ROW 9
+#define MAX_COL 10
+#define FINF FLT_MAX
+#define fi first
+#define se second
+typedef pair<int, int> par; typedef pair<double, par> ppar;
+m(int) grid; struct cell { int pi, pj; double f, g, h; };
+
+bool is_valid(int row, int col) {
+	return (row >= 0) && (row < MAX_ROW) && 
+	       (col >= 0) && (col < MAX_COL);
+}
+bool is_unblocked(int row, int col) {
+	return (grid[row][col] == 1); }
+bool is_dest(int row, int col, par dest) {
+	return (row == dest.fi && col == dest.se); }
+double getHValue(int row, int col, par dest) {
+	return ((double)sqrt((row - dest.fi) * (row - dest.fi) + 
+	                     (col - dest.se) * (col - dest.se)));
+}
+
+void trace_path(cell cd[][MAX_COL], par dest) {
+	printf("\nThe Path is ");
+	int row = dest.fi, col = dest.se; stack<par> path;
+	while (!(cd[row][col].pi == row && 
+	         cd[row][col].pj == col)) {
+		path.push({row, col});
+		int t_row = cd[row][col].pi, t_col = cd[row][col].pj;
+		row = t_row; col = t_col;
+	}
+	path.push({row, col});
+	while (!path.empty()) {
+		par p = path.top(); path.pop();
+		printf("-> (%d, %d) ", p.fi, p.se);
+	}
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: A* (Parte I)]
+void aStarSearch(par src, par dest) {
+	if (!is_valid(src.fi, src.se)) return;// Invalid Source
+	if (!is_valid(dest.fi, dest.se)) return;// Invalid Dest
+	// Source or the destination is blocked
+	if (!is_unblocked(src.fi, src.se) || 
+	    !is_unblocked(dest.fi, dest.se)) return;
+	// We are already at the destination
+	if (is_dest(src.fi, src.se, dest)) return;
+
+	bool closed[MAX_ROW][MAX_COL];
+	memset(closed, false, sizeof(closed));
+	cell cd[MAX_ROW][MAX_COL];
+	int i, j;
+	for (i = 0; i < MAX_ROW; i++) {
+		for (j = 0; j < MAX_COL; j++) {
+			cd[i][j].f = FINF; cd[i][j].g = FINF;
+			cd[i][j].h = FINF; 
+			cd[i][j].pi = -1; cd[i][j].pj = -1;
+		}
+	}
+	
+	// Initialising the parameters of the starting node
+	i = src.fi, j = src.se;
+	cd[i][j].f = 0.0;
+	cd[i][j].g = 0.0;
+	cd[i][j].h = 0.0;
+	cd[i][j].pi = i;
+	cd[i][j].pj = j;
+
+	set<ppar> open;
+	open.insert({0.0, {i, j}});
+	bool found = false;
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: A* (Parte II)]
+while (!open.empty()) {
+	ppar p = *open.begin(); open.erase(open.begin());
+	i = p.se.fi; j = p.se.se; closed[i][j] = true;
+	double gNew, hNew, fNew;
+	if (is_valid(i - 1, j)) {// 1st Successor (North)
+		if (is_dest(i - 1, j, dest)) {
+			cd[i - 1][j].pi = i; cd[i - 1][j].pj = j;
+			printf("The destination cell is found\n");
+			trace_path(cd, dest); found = true; return;
+		} else if (!closed[i - 1][j] && 
+		            is_unblocked(i - 1, j)) {
+			gNew = cd[i][j].g + 1.0;
+			hNew = getHValue(i - 1, j, dest);
+			fNew = gNew + hNew;
+			if (cd[i - 1][j].f == FINF || 
+			    cd[i - 1][j].f > fNew) {
+				open.insert({fNew, {i - 1, j}});
+				cd[i - 1][j].f = fNew;
+				cd[i - 1][j].g = gNew;
+				cd[i - 1][j].h = hNew;
+				cd[i - 1][j].pi = i;
+				cd[i - 1][j].pj = j;
+			}
+		}
+	}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: A* (Parte III)]
+	if (is_valid(i + 1, j)) {// 2nd Successor (South)
+		if (is_dest(i + 1, j, dest)) {
+			cd[i + 1][j].pi = i;
+			cd[i + 1][j].pj = j;
+			printf("The destination cell is found\n");
+			trace_path(cd, dest);
+			found = true;
+			return;
+		} else if (!closed[i + 1][j] && 
+		            is_unblocked(i + 1, j)) {
+			gNew = cd[i][j].g + 1.0;
+			hNew = getHValue(i + 1, j, dest);
+			fNew = gNew + hNew;
+			if (cd[i + 1][j].f == FINF || 
+			    cd[i + 1][j].f > fNew) {
+				open.insert({fNew, {i + 1, j}});
+				cd[i + 1][j].f = fNew;
+				cd[i + 1][j].g = gNew;
+				cd[i + 1][j].h = hNew;
+				cd[i + 1][j].pi = i;
+				cd[i + 1][j].pj = j;
+			}
+		}
+	}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: A* (Parte IV)]
+	if (is_valid(i, j + 1)) {// 3rd Successor (East)
+		if (is_dest(i, j + 1, dest)) {
+			cd[i][j + 1].pi = i;
+			cd[i][j + 1].pj = j;
+			printf("The destination cell is found\n");
+			trace_path(cd, dest);
+			found = true;
+			return;
+		} else if (!closed[i][j + 1] && 
+		            is_unblocked(i, j + 1)) {
+			gNew = cd[i][j].g + 1.0;
+			hNew = getHValue (i, j + 1, dest);
+			fNew = gNew + hNew;
+			if (cd[i][j + 1].f == FINF || 
+			    cd[i][j + 1].f > fNew) {
+				open.insert({fNew, {i, j + 1}});
+				cd[i][j + 1].f = fNew;
+				cd[i][j + 1].g = gNew;
+				cd[i][j + 1].h = hNew;
+				cd[i][j + 1].pi = i;
+				cd[i][j + 1].pj = j;
+			}
+		}
+	}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Parte 2: A* (Parte V)]
+	if (is_valid(i, j - 1)) {// 4th Successor (West)
+		if (is_dest(i, j - 1, dest)) {
+			cd[i][j - 1].pi = i;
+			cd[i][j - 1].pj = j;
+			printf("The destination cell is found\n");
+			trace_path(cd, dest);
+			found = true;
+			return;
+		} else if (!closed[i][j - 1] && 
+		            is_unblocked(i, j - 1)) {
+			gNew = cd[i][j].g + 1.0;
+			hNew = getHValue(i, j - 1, dest);
+			fNew = gNew + hNew;
+			if (cd[i][j - 1].f == FINF || 
+			    cd[i][j - 1].f > fNew) {
+				open.insert({fNew, {i, j - 1}});
+				cd[i][j - 1].f = fNew;
+				cd[i][j - 1].g = gNew;
+				cd[i][j - 1].h = hNew;
+				cd[i][j - 1].pi = i;
+				cd[i][j - 1].pj = j;
+			}
+		}
+	}
+}// FIM DO WHILE
+
+if (!found)
+	printf("Failed to find the Destination Cell\n");
+}// FIM DA FUNCAO
+\end{lstlisting}

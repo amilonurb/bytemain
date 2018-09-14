@@ -1,0 +1,33 @@
+\begin{lstlisting}[language=C++]
+m(int) grafo;
+int connectedComponents(int num_vertices) {
+	v(int) elementos;
+	int status[num_vertices], init = 0, pilha[num_vertices], 
+	    topo = -1, result = 0;
+    memset(status, 0, sizeof(status));
+	rep(j, num_vertices) {
+		if (status[j] == 0) {
+			status[j] = 1;
+			pilha[++topo] = j;
+			while (topo != -1) {
+				init = pilha[topo--];
+				elementos.pb(init);
+				rep(i, num_vertices) {
+					if (grafo[init][i] && status[i] == 0) {
+						pilha[++topo] = i;
+						status[i] = 1;
+					}
+				}
+			}
+			// Rotina para exibir as componentes
+            // sort(elementos.begin(), elementos.end());
+			// rep(i, elementos.size())
+			//    printf("%n ", elementos[i]);
+			// putchar('\n');
+            elementos.clear();
+			result++;
+		}
+	}
+	return result;
+}
+\end{lstlisting}

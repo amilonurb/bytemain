@@ -1,0 +1,78 @@
+\begin{lstlisting}[language=C++, title=BFS para Matriz de Adjacências]
+vector<vector<int>> grafo;
+
+void bfs(int vertice) {
+    vector<bool> visitados(grafo.size(), false);
+    queue<int> fila; fila.push(vertice);
+    visitados[vertice] = true;
+    while (!fila.empty()) {
+        int v = fila.front(); fila.pop();
+        cout << v << ' ';
+        for (int i = 0; i < (int) grafo[v].size(); i++) {
+            if (grafo[v][i] == 0) continue;
+            if (!visitados[i]) {
+                fila.push(i);
+                visitados[i] = true;
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=C++, title=BFS para Lista de Adjacências]
+vector<list<int>> grafo;
+void bfs(int vertice) {
+    vector<bool> visitados(grafo.size(), false);
+    deque<int> fila; visitados[vertice] = true;
+    fila.push_back(vertice);
+    while (!fila.empty()) {
+        vertice = fila.front(); cout << vertice << ' ';
+        fila.pop_front();
+        for (auto &i : grafo[vertice]) {
+            if (!visitados[i]) {
+                visitados[i] = true; fila.push_back(i);
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Exemplo de BFS em Grid para calcular distância]
+const int MAXN = 1000, INF  = INT_MAX, WALL = '*';
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+char grid[MAXN][MAXN];
+int  dist[MAXN][MAXN];
+bool valid(int y, int x, int height, int width) {
+	return (x >= 0 && y >= 0 && y < height && x < width && 
+	        grid[y][x] != WALL && dist[y][x] == INF);
+}
+
+void bfs(int sty, int stx, int height, int width) {
+	int tx, ty, nx, ny;
+	queue<int> qx, qy;
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+			dist[i][j] = INF;
+	dist[sty][stx] = 0;
+	qx.push(stx);
+	qy.push(sty);
+	while (!qx.empty()) {
+		tx = qx.front();
+		ty = qy.front();
+		qx.pop();
+		qy.pop();
+		for (int i = 0; i < 4; i++) {
+			nx = tx + dx[i];
+			ny = ty + dy[i];
+			if (valid(ny, nx, height, width)) {
+				dist[ny][nx] = dist[ty][tx] +1;
+				qy.push(ny);
+				qx.push(nx);
+			}
+		}
+	}
+}
+\end{lstlisting}

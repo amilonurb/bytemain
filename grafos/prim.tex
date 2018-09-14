@@ -1,0 +1,32 @@
+OBS: Iniciar o grafo com INF\\
+Complexidade: \(O(n^{2})\)
+\begin{lstlisting}[language=C++]
+const int MAX_N = 100;
+v(int) grafo;
+int prim() {
+	int n = grafo.size(), v = 0;
+	int distance, result = 0;
+	v(int) dist(n, INF);
+	v(bool) visited(n, false);
+	dist[v] = 0;
+	while (!visited[v]) {
+		visited[v] = true;
+		for (int i = 0; i < N; i++)
+            if (grafo[v][i] != INF && !visited[i])
+                dist[i] = min(dist[i], grafo[v][i]);
+		v = 0;
+		distance = INF;
+
+		for (int i = 1; i <= n - 1; i++) {
+            if (!visited[i] && dist[i] < distance) {
+                distance = dist[i];
+                v = i;
+            }
+		}
+		
+		if (distance != INF)
+		    result += distance;
+	}
+	return result;
+}
+\end{lstlisting}

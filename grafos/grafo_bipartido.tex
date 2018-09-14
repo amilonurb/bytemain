@@ -1,0 +1,54 @@
+\begin{lstlisting}[language=C++, title=Checa se é bipartido]
+bool isBipartite() {
+    color[0] = 1;
+    queue<int> fila;
+    fila.push(0);
+    while (!fila.empty()) {
+        int temp = fila.front();
+        fila.pop();
+        for (int i = 0; i < (int) grafo.size(); i++) {
+            if (grafo[temp][i] && color[i] == -1) {
+                color[i] = 1 - color[temp];
+                fila.push(i);
+            } else if (grafo[temp][i] && 
+                       color[i] == color[temp])
+                return false;
+        }
+    }
+    return true;
+}
+\end{lstlisting}
+
+\newpage
+
+\begin{lstlisting}[language=C++, title=Emparelhamento Máximo em Grafo Bipartido]
+#define rep(i, n) for (int i = 0; i < n; i++)
+#define MAX_N 100
+m(int) grafo;
+v(bool) visitados;
+bool FindMatch(int i, v(int) &left, v(int) &right) {
+    rep(j, grafo[i].size()) {
+        if (grafo[i][j] && !visitados[j]) {
+            visitados[j] = true;
+            if (right[j] < 0 || 
+                FindMatch(right[j], left, right)) {
+                left[i] = j;
+                right[j] = i;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int BipartiteMatching(v(int) &left, v(int) &right) {
+    left = v(int)(grafo.size(), -1);
+    right = v(int)(grafo[0].size(), -1);
+    int ct = 0;
+    rep(i, grafo.size()) {
+        visitados = v(bool)(grafo[0].size());
+        if (FindMatch(i, left, right)) ct++;
+    }
+    return ct;
+}
+\end{lstlisting}

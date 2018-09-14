@@ -4,30 +4,27 @@
 
 \include{config/capa}
 
-% Dedicatórias
 \begin{dedication}
 \Large{Ao nosso técnico Ricardo Mesquita, por confiar em nós.}
 \end{dedication}
 
-% Sumário
+% subsubsections não devem ser indexadas
 \tableofcontents
-
-% Vamos nos basear no contéudo do geeksforgeeks?
-% Estou me baseando no cp-algorithms e codelibrary
 
 \chapter{Táticas}
     \section{Limites de Representação de Dados}
         \input{taticas/limites}
-        \newpage
     \section{Linguagens}
         \input{taticas/linguagens}
         \newpage
-    \section{Checklist}
-        \input{taticas/checklist}
-        \newpage
+    % levaremos nossas checklists anotadas no caderno
+    % \section{Checklist}
+    %     \input{taticas/checklist}
+    %     \newpage
     \section{Soluções de Problemas}
         \input{taticas/solucoes_de_problemas}
         \newpage
+        
 \chapter{Matemática}
     \section{Combinatória}
         \subsection{Fórmulas}
@@ -47,13 +44,14 @@
             \input{matematica/combinatoria/mochilaReal}
         \subsection{Kadane, lista de Soma Máxima Contínua}
             \input{matematica/combinatoria/kadane}
+    
     \section{Recorrências}
         \input{matematica/combinatoria/recorrencias}
         \newpage
+    
     \section{Teoria dos Números}
         \subsection{Fórmulas Úteis}
             \input{matematica/teoria_numeros/formulas}
-            \newpage
         \subsection{Exponenciação Rápida}
             \input{matematica/teoria_numeros/modular_exp}
             \newpage
@@ -69,9 +67,6 @@
         \subsection{Matrizes}
             \input{matematica/algebra_linear/matrizes}
             \newpage
-        \subsection{Determinantes}
-            \input{matematica/algebra_linear/determinantes}
-            \newpage
         \subsection{Sistemas Lineares}
             \input{matematica/algebra_linear/sistemas}
             \newpage
@@ -82,6 +77,7 @@
         \subsection{Fórmulas}
             \input{matematica/geometria/formulas}
             \newpage
+        % Eh desta forma mesmo!
         \input{matematica/geometria/trig}
         \subsection{Ponto}
             \input{matematica/geometria/ponto}
@@ -98,11 +94,13 @@
         \subsection{Polígono}
             \input{matematica/geometria/poligono}
             \newpage
-            \subsubsection{Fecho Convexo}
+            \subsubsection*{Fecho Convexo}
                 \input{matematica/geometria/convexo}
             \newpage
         
 \chapter{Estruturas de Dados}
+    \section{Bitset}
+        \input{bitwise/bit}
     \section{Union-Find}
         \input{ds/union_find}
     \newpage
@@ -112,6 +110,11 @@
     \section{Árvore Rubro-Negra}
         \input{ds/rb_tree}
     \newpage
+    \section{Árvore de Sufixos}
+        \input{ds/suffix_tree}
+        \newpage
+    \section{Trie}
+        \input{ds/trie}
 
 \chapter{Ordenação}
     \section{Counting Sort}
@@ -119,39 +122,42 @@
 \newpage
 
 \chapter{Grafos}
-    \section{Teoremas Fundamentais}
-        \input{grafos/teoremas}
-    \newpage
     \section{Travessias}
-        \subsection*{Depth-First-Search}
+        \subsection{Depth-First-Search}
             \input{grafos/dfs}
-        \subsection*{Breadth-First-Search}
+            \newpage
+        \subsection{Breadth-First-Search}
             \input{grafos/bfs}
-        \subsection*{Flood Fill}
-            \input{grafos/floodfill}
-        \subsection*{Topological Sort}
-            \input{grafos/ordenacao_topologica}
-        \newpage
+            \newpage
     \section{Árvores}
-        \subsection*{Deep-First-Search}
+        \subsection{Árvore Geradora Mínima: Kruskal}
             \input{grafos/kruskal}
-        \input{grafos/prim}
-        \newpage
+            \newpage
+        \subsection{Árvore Geradora Mínima: Prim}
+            \input{grafos/prim}
+            \newpage
     \section{Rotas}
-        \subsection{Caminho Euleriano}
-            \input{grafos/caminho_euleriano}
-        \subsection{Caminho Hamiltoniano}
-            \input{grafos/caminho_hamiltoniano}
-        \subsection{Djikstra}
+        \subsection{Pontes e Articulações}
+            \input{grafos/pontes_articulacao}
+        \subsection{Dijkstra}
             \input{grafos/dijkstra}
+            \newpage
+        \subsection{Shortest Path in Grid (A* Search)}
+            \input{grafos/a_search}
+            \newpage
         \subsection{Bellman Ford}
             \input{grafos/bellman_ford}
-        \newpage
+            \newpage
         \subsection{TSP}
             \input{grafos/caixeiro_viajante}
-        
-        \newpage
-    \section{Fluxo}
+            \newpage
+    \section{Outros}
+        \subsection{Componentes Conexos}
+            \input{grafos/componentes_conexos}
+            \newpage
+        \subsection{Grafo Bipartido}
+            \input{grafos/grafo_bipartido}
+            \newpage
 \newpage
 
 \chapter{String}
@@ -165,6 +171,9 @@
         \input{string/todas_ocorrencias}
     \section{Longest Common SubString}
         \input{string/lcs}
+        \newpage
+    \section{Z Algorithm}
+        \input{string/z}
 \newpage
 
 \end{document}

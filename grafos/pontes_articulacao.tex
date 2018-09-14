@@ -1,0 +1,93 @@
+\begin{lstlisting}[language=C++, title={Pontes}]
+#define NIL -1
+
+vector <list <int>> grafo(1000);
+int pontes = 0;
+
+void addAresta(int u, int v){
+    grafo[u].push_back(v);
+    grafo[v].push_back(u);
+}
+
+void ehPonte(int u, bool visitado[], 
+        int desc[], int baixo[], int pai[]){
+    static int time = 0;
+    visitado[u] = true;
+    desc[u] = baixo[u] = ++time;
+    list<int>::iterator i;
+    for (i = grafo[u].begin(); i != grafo[u].end(); ++i){
+        int v = *i;
+ 
+        if (!visitado[v]){
+            pai[v] = u;
+            ehPonte(v, visitado, desc, baixo, pai);
+            baixo[u]  = min(baixo[u], baixo[v]);
+            if (baixo[v] > desc[u])
+                pontes++; //imprime no main
+        }
+        else if (v != pai[u])
+            baixo[u]  = min(baixo[u], desc[v]);
+    }
+}
+
+void DFS(int qtd){
+    bool *visitado = new bool[qtd];
+    int *desc = new int[qtd];
+    int *low = new int[qtd];
+    int *pai = new int[qtd];
+ 
+    for (int i = 0; i < qtd; i++){
+        pai[i] = NIL;
+        visitado[i] = false;
+    }
+ 
+    for (int i = 0; i < qtd; i++)
+        if (visitado[i] == false)
+            ehPonte(i, visitado, desc, low, pai);
+}
+\end{lstlisting}
+\begin{lstlisting}[language=C++, title={Pontos de Articulação}]
+vector <list <int>> grafo(1000);
+int artic = 0;
+
+void addAresta(int u, int v){}
+
+void ehArtic(int u, bool visitado[], 
+        int desc[], int baixo[], int pai[], bool ap[]){
+    static int time = 0;
+    int filhos = 0;
+    visitado[u] = true;
+    desc[u] = baixo[u] = ++time;
+    list<int>::iterator i;
+    for(i = grafo[u].begin(); i != grafo[u].end(); ++i){
+        int v = *i;
+        if (!visitado[v]){
+            filhos++;
+            pai[v] = u;
+            ehArtic(v, visitado, desc, baixo, pai, ap);
+            baixo[u]  = min(baixo[u], baixo[v]);
+            if ((pai[u] == NIL && filhos > 1) ||
+               (pai[u] != NIL && baixo[v] >= desc[u]))
+               ap[u] = true;
+        }
+        else if (v != pai[u])
+            baixo[u]  = min(baixo[u], desc[v]);
+    }
+}
+
+void DFS(int qtd){
+    //de visitado ate pai eh a mesma coisa
+    bool *ap = new bool[qtd];
+    for (int i = 0; i < qtd; i++){
+        pai[i] = NIL;
+        visitado[i] = false;
+        ap[i] = false;
+    }
+    for (int i = 0; i < qtd; i++)
+        if (visitado[i] == false)
+            ehArtic(i, visitado, desc, baixo, pai, ap);
+    for (int i = 0; i < qtd; i++)
+        if (ap[i] == true)
+            artic++; //imprime no main
+}
+\end{lstlisting}

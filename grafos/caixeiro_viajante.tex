@@ -1,3 +1,19 @@
 \begin{lstlisting}[language=C++, title=Toma cuidado que essa porra aki é $O(n^2*2^n)$]
+int qVert;
+m(int) grafo, memo;
 
+int tsp(bitset<sizeof(int)> mask,int pos){
+    
+    if(mask==( (1<<qVert) -1)) return grafo[pos][0];
+    if(memo[mask][pos]!=-1) return memo[mask][pos];
+    
+    int custo = INF;
+
+    for(int i=0; i<qVert; i++)
+        if((mask&(1<<i))==0)
+            custo = min(custo, grafo[pos][i]
+                    + tsp( mask | (1<<i), i));
+    
+    return memo[mask][pos] = custo;
+} 
 \end{lstlisting}
